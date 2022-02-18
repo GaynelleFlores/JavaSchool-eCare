@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>Example page</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+<main>
+  <div class="container py-4">
+    <header class="pb-3 mb-4 border-bottom">
+      <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+        <img th:src="@{images/bird.png}" alt="" width="72" height="57">
+        <span class="fs-4">Example page</span>
+      </a>
+    </header>
+    <div class="p-5 mb-4 bg-light rounded-3">
+      <div class="container-fluid py-5">
+        <p class="display-5 fw-bold" th:text="'Hello, user! Your phone number is: ' + ${phoneNumber} + '!'" />
+        <p class="col-md-8 fs-4">This is a simple example page.</p>
+      </div>
+    </div>
+  </div>
+</main>
+  </body>
+</html>
