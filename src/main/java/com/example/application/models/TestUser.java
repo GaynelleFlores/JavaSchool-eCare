@@ -1,4 +1,4 @@
-package com.example.servingwebcontent;
+package com.example.application.models;
 
 public class TestUser {
     public String phoneNumber;
