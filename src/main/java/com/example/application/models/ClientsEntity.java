@@ -4,10 +4,14 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+
 @Table(name = "clients", schema = "public", catalog = "postgres")
 public class ClientsEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rev_id_generator")
+//    @SequenceGenerator(name = "rev_id_generator", sequenceName = "rev_id_seq", allocationSize = 1)
+
+    @GeneratedValue(strategy =  GenerationType.AUTO)
     @Column(name = "id")
     private int id;
     @Basic
