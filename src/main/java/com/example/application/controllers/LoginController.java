@@ -4,7 +4,7 @@ import com.example.application.models.TestUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import org.apache.commons.lang3.StringUtils;
 import java.util.Objects;
 
 @Controller
@@ -17,10 +17,10 @@ public class LoginController {
 
     @PostMapping("/signin")
     public String greeting(TestUser user, Model model) {
-        if (!Objects.equals(user.phoneNumber, "")) {
-            model.addAttribute("phoneNumber", user.phoneNumber);
-        } else {
+        if (StringUtils.isBlank(user.phoneNumber)) {
             model.addAttribute("phoneNumber", "unknown");
+        } else {
+            model.addAttribute("phoneNumber", user.phoneNumber);
         }
         return "greeting";
     }
