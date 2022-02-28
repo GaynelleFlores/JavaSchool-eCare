@@ -26,7 +26,6 @@ public class ContractDAO {
     }
 
     public void edit(ContractsEntity contract) {
-
         entityManager.merge(contract);
     }
 

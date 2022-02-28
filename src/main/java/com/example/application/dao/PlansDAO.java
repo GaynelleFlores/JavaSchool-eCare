@@ -28,8 +28,8 @@ public class PlansDAO {
 
     public void delete(PlansEntity plan) {
         for (int i = 0; i < plan.getContracts().size(); i++) {
-            ContractsEntity contractDB = entityManager.find(ContractsEntity.class, plan.getContracts().get(i).getId());
-            entityManager.remove(entityManager.merge(contractDB));
+            ContractsEntity contract = entityManager.find(ContractsEntity.class, plan.getContracts().get(i).getId());
+            entityManager.remove(entityManager.merge(contract));
         }
         entityManager.remove(entityManager.merge(plan));
     }
