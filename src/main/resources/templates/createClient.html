@@ -49,27 +49,32 @@
 <form th:method="POST" th:action="@{/clients}" class="row g-3" th:object="${client}">
     <div class="col-md-6">
         <label for="name">Enter name: </label>
-        <input type="text" th:field="*{name}" id="name"/>
+        <input type="text" required th:field="*{name}" id="name"/>
     <br/>
     </div>
     <div class="col-md-6">
         <label for="surname">Enter surname: </label>
-        <input type="text" th:field="*{surname}" id="surname"/>
+        <input type="text" required th:field="*{surname}" id="surname"/>
         <br/>
     </div>
     <div class="col-md-6">
         <label for="address">Enter address: </label>
-        <input type="text" th:field="*{address}" id="address"/>
+        <input type="text" required th:field="*{address}" id="address"/>
         <br/>
     </div>
     <div class="col-md-6">
         <label for="birthdate">Enter birthdate: </label>
-        <input type="text" th:field="*{birthdate}" id="birthdate"/>
+        <input type="date" required th:field="*{birthdate}" id="birthdate"/>
         <br/>
     </div>
     <div class="col-md-6">
         <label for="passport">Enter passport: </label>
-        <input type="text" th:field="*{passport}" id="passport"/>
+        <input type="text" required th:field="*{passport}" id="passport"/>
+        <br/>
+    </div>
+    <div class="col-md-6">
+        <label for="email">Enter email: </label>
+        <input type="email" th:field="*{email}" id="email"/>
         <br/>
     </div>
     <button type="submit" class="btn btn-primary">Create user</button>

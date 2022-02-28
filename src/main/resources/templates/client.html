@@ -22,7 +22,7 @@
             </thead>
             <tbody>
             <tr th:if="${client == null}">
-                <td colspan="2"> No client with such id </td>
+                <td colspan="2"> No client with  requested id. </td>
             </tr>
             <tr th:if="${client != null}">
                 <td><span th:text="${client.getId()}"> Id </span></td>
@@ -31,7 +31,7 @@
             </tr>
             </tbody>
         </table>
-        <div>
+        <div th:if="${client != null}">
             <form th:method="DELETE" th:action="@{/clients/{id}(id=${client.getId()})}" class="row g-3">
                 <input type="submit" value="Delete"/>
             </form>

@@ -11,6 +11,8 @@
         <property name="hibernate.connection.password"/>
         <property name="show_sql">true</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>
+
+
         <mapping class="com.example.application.models.PlansEntity" />
         <mapping class="com.example.application.models.ClientsEntity" />
         <mapping class="com.example.application.models.OptionsEntity" />

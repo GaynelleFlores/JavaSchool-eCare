@@ -1,96 +1,62 @@
 package com.example.application.controllers;
 
-import com.example.application.dao.ClientDAO;
-import com.example.application.models.ClientsEntity;
+import com.example.application.services.ClientsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import com.example.application.dto.ClientDTO;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class ClientsController {
 
-    private final ClientDAO clientDAO;
+    private final ClientsService clientsService;
 
     @Autowired
-    public ClientsController(){
-        this.clientDAO = new ClientDAO();
+    public ClientsController(ClientsService clientsService){
+        this.clientsService = clientsService;
     }
 
     @GetMapping("clients")
     public String index(Model model) {
-        try {
-            model.addAttribute("clients", clientDAO.index());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "failure";
-        }
+        model.addAttribute("clients", clientsService.getClientsList());
         return "clients";
     }
 
     @GetMapping("clients/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-        ClientsEntity client = null;
-        try {
-            client = clientDAO.show(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "failure";
-        }
-        model.addAttribute("client", client);
+        model.addAttribute("client", clientsService.getClient(id));
         return "client";
     }
 
     @GetMapping("/createClient")
     public String addClient(Model model) {
-        ClientsEntity client = new ClientsEntity();
-        model.addAttribute("client", client);
+        model.addAttribute("client", new ClientDTO());
         return "createClient";
     }
 
     @PostMapping("/clients")
-    public String create(@ModelAttribute("client") ClientsEntity client) {
-        try {
-            clientDAO.add(client);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "failure";
-        }
+    public String create(@ModelAttribute("client") ClientDTO client) {
+        clientsService.createClient(client);
         return "success";
     }
 
     @DeleteMapping("clients/{id}")
     public String delete(@PathVariable("id") int id, Model model) {
-        try {
-            clientDAO.delete(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "failure";
-        }
+        clientsService.deleteClient(id);
         return "success";
     }
 
     @GetMapping("clients/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
-        ClientsEntity client = null;
-        try {
-            client = clientDAO.show(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "failure";
-        }
-        model.addAttribute("client", client);
+        model.addAttribute("client", clientsService.getClient(id));
         return "editClient";
     }
 
     @PatchMapping("clients/{id}")
-    public String update(@ModelAttribute("client") ClientsEntity client, @PathVariable("id") int id) {
-        try {
-            clientDAO.edit(client);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "failure";
-        }
+    public String update(@ModelAttribute("client") ClientDTO client, @PathVariable("id") int id) {
+
+        clientsService.updateClient(client);
         return "success";
     }
 }

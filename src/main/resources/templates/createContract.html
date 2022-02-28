@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <meta name="generator" content="Hugo 0.88.1">
-    <title>Edit client</title>
+    <title>New contract</title>
 
     <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
 
@@ -45,37 +45,26 @@
         <div class="bd-heading sticky-xl-top align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
             <h3>Add personal information</h3>
         </div>
-    </article>
         <div class="bd-example">
-            <form th:method="PATCH" th:action="@{/clients/{id}(id=${client.getId()})}" th:object="${client}">
+            <form th:method="POST" th:action="@{/contracts}" class="row g-3" th:object="${contract}">
                 <div class="col-md-6">
-                    <label for="name">Enter name: </label>
-                    <input type="text" th:field="*{name}" id="name"/>
+                    <label for="phone_number">Enter phone number: </label>
+                    <input type="text" required th:field="*{phone_number}" id="phone_number"/>
                     <br/>
                 </div>
                 <div class="col-md-6">
-                    <label for="surname">Enter surname: </label>
-                    <input type="text" th:field="*{surname}" id="surname"/>
+                    <label for="client_id">Enter client's id: </label>
+                    <input type="text" required th:field="*{client.id}" id="client_id"/>
                     <br/>
                 </div>
                 <div class="col-md-6">
-                    <label for="address">Enter address: </label>
-                    <input type="text" th:field="*{address}" id="address"/>
+                    <label for="plan_id">Enter plan's id: </label>
+                    <input type="text" required th:field="*{plan.id}" id="plan_id"/>
                     <br/>
                 </div>
-                <div class="col-md-6">
-                    <label for="birthdate">Enter birthdate: </label>
-                    <input type="text" th:field="*{birthdate}" id="birthdate"/>
-                    <br/>
-                </div>
-                <div class="col-md-6">
-                    <label for="passport">Enter passport: </label>
-                    <input type="text" th:field="*{passport}" id="passport"/>
-                    <br/>
-                </div>
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="submit" class="btn btn-primary">Create contract</button>
+                <!--                    <input type="submit" value="Create!"/>-->
             </form>
         </div>
 </div>
 </body>
-

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Option</title>
+
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">-->
+</head>
+<body>
+
+<h1>Plan</h1>
+<table>
+    <thead>
+    <tr>
+        <th> Id </th>
+        <th> Title </th>
+        <th> Price </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${plan == null}">
+        <td colspan="2"> No plan with requested id. </td>
+    </tr>
+    <tr th:if="${plan != null}">
+        <td><span th:text="${plan.getId()}"> Id </span></td>
+        <td><span th:text="${plan.getTitle()}"> Title </span></td>
+        <td><span th:text="${plan.getPrice()}"> Price </span></td>
+    </tr>
+    </tbody>
+</table>
+<div th:if="${plan != null}">
+    <form th:method="DELETE" th:action="@{/plans/{id}(id=${plan.getId()})}" class="row g-3">
+        <input type="submit" value="Delete"/>
+    </form>
+        <form th:method="GET" th:action="@{/plans/{id}/edit(id = ${plan.getId()})}" class="row g-3">
+            <input type="submit" value="Edit"/>
+        </form>
+    </div>
+</body>
+</html>

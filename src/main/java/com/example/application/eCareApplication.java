@@ -1,21 +1,17 @@
 package com.example.application;
 
-import com.example.application.models.ClientsEntity;
-import com.example.application.util.HibernateUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 @SpringBootApplication
 public class eCareApplication {
 
+
     public static void main(String[] args) {
         System.setProperty("spring.devtools.restart.enabled", "false");
-//        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
-//        EntityManager entityManager = entityManagerFactory.createEntityManager();
-//        EntityTransaction transaction = entityManager.getTransaction();
-
+        ApplicationContext context = new AnnotationConfigApplicationContext(eCareApplication.class);
         SpringApplication.run(eCareApplication.class, args);
     }
 }

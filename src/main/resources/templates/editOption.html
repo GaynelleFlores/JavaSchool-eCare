@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <meta name="generator" content="Hugo 0.88.1">
-    <title>Edit client</title>
+    <title>Edit option</title>
 
     <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
 
@@ -38,44 +38,39 @@
         <a href="../examples/cheatsheet-rtl/" class="ms-auto link-light" hreflang="ar">RTL cheatsheet</a>
     </div>
 </header>
-
+<!--<tr th:if="${contract != null}">-->
+<!--    <td><span th:text="${option.getId()}"> Id </span></td>-->
+<!--    <td><span th:text="${option.getPhone_number()}"> Phone number </span></td>-->
+<!--    <td><span th:text="${contract.getClient().getName()}"> ClientName </span></td>-->
+<!--    <td><span th:text="${contract.getClient_id}"> ClientName </span></td>-->
+<!--</tr>-->
 <div class="bd-cheatsheet container-fluid bg-body">
-    <h1>Create a user</h1>
+    <h1>Edit contract</h1>
     <article class="my-3" id="validation">
         <div class="bd-heading sticky-xl-top align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
             <h3>Add personal information</h3>
         </div>
     </article>
         <div class="bd-example">
-            <form th:method="PATCH" th:action="@{/clients/{id}(id=${client.getId()})}" th:object="${client}">
+
+            <form th:method="PATCH" th:action="@{/options/{id}(id=${option.getId()})}" th:object="${option}">
                 <div class="col-md-6">
-                    <label for="name">Enter name: </label>
-                    <input type="text" th:field="*{name}" id="name"/>
+                    <label for="title">Enter title: </label>
+                    <input type="text" th:field="*{title}" id="title"/>
                     <br/>
                 </div>
                 <div class="col-md-6">
-                    <label for="surname">Enter surname: </label>
-                    <input type="text" th:field="*{surname}" id="surname"/>
+                    <label for="price">Enter price: </label>
+                    <input th:field="*{price}" id="price"/>
                     <br/>
                 </div>
                 <div class="col-md-6">
-                    <label for="address">Enter address: </label>
-                    <input type="text" th:field="*{address}" id="address"/>
+                    <label for="connection_cost">Enter connection cost: </label>
+                    <input type="text" th:field="*{connection_cost}" id="connection_cost"/>
                     <br/>
                 </div>
-                <div class="col-md-6">
-                    <label for="birthdate">Enter birthdate: </label>
-                    <input type="text" th:field="*{birthdate}" id="birthdate"/>
-                    <br/>
-                </div>
-                <div class="col-md-6">
-                    <label for="passport">Enter passport: </label>
-                    <input type="text" th:field="*{passport}" id="passport"/>
-                    <br/>
-                </div>
-                <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
             </form>
         </div>
 </div>
 </body>
-
