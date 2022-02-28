@@ -1,8 +1,12 @@
 package com.example.application.models;
 
+import lombok.Getter;
+import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "plans", schema = "public", catalog = "postgres")
@@ -10,37 +14,33 @@ public class PlansEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
+    @Getter
+    @Setter
     private int id;
-    @Basic
+
     @Column(name = "title")
+    @Getter
+    @Setter
     private String title;
-    @Basic
+
     @Column(name = "price")
+    @Getter
+    @Setter
     private BigInteger price;
 
-    public int getId() {
-        return id;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "plans_options",
+            joinColumns = @JoinColumn(name = "plan_id"),
+            inverseJoinColumns = @JoinColumn(name = "option_id"))
+    @Getter
+    @Setter
+    Set<OptionsEntity> allowed_options;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public BigInteger getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigInteger price) {
-        this.price = price;
-    }
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "plan", cascade = CascadeType.PERSIST)
+    @Getter
+    @Setter
+    private List<ContractsEntity> contracts;
 
     @Override
     public boolean equals(Object o) {
@@ -48,6 +48,16 @@ public class PlansEntity {
         if (o == null || getClass() != o.getClass()) return false;
         PlansEntity that = (PlansEntity) o;
         return id == that.id && Objects.equals(title, that.title) && Objects.equals(price, that.price);
+    }
+
+    @Override
+    public String toString() {
+        return "PlansEntity[" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", allowed_options='" + allowed_options + '\'' +
+                ", price=" + price +
+                ']';
     }
 
     @Override
