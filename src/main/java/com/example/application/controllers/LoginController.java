@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.apache.commons.lang3.StringUtils;
-import java.util.Objects;
 
 @Controller
 public class LoginController {
