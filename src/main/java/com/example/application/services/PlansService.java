@@ -33,6 +33,7 @@ public class PlansService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public  PlanDTO getPlan(int id) {
         PlansEntity plan = plansDAO.show(id);
+        System.out.println(plan.toString());
         return mapper.map(plan, PlanDTO.class);
     }
 

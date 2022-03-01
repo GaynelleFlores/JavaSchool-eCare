@@ -1,26 +1,23 @@
 package com.example.application.models;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Data
+@ToString(exclude = { "options", "client", "plan"})
 @Table(name = "contracts", schema = "public", catalog = "postgres")
 public class ContractsEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     @Column(name = "id")
-    @Getter
-    @Setter
     private int id;
 
     @Column(name = "phone_number")
-    @Getter
-    @Setter
     private String phone_number;
 
     @Column(name = "is_blocked")
@@ -28,14 +25,12 @@ public class ContractsEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name="plan_id")
-    @Getter
-    @Setter
+    @EqualsAndHashCode.Exclude
     PlansEntity plan;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name="client_id")
-    @Getter
-    @Setter
+    @EqualsAndHashCode.Exclude
     ClientsEntity client;
 
     @ManyToMany
@@ -51,29 +46,5 @@ public class ContractsEntity implements Serializable {
 
     public void setIs_blocked(boolean is_blocked) {
         this.is_blocked = is_blocked;
-    }
-
-    @Override
-    public String toString() {
-        return "ContractsEntity[" +
-                "id=" + id +
-                ", phone_number='" + phone_number + '\'' +
-                ", options='" + options + '\'' +
-                ", plan=" + plan + '\'' +
-                ", client=" + client +
-                ']';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ContractsEntity that = (ContractsEntity) o;
-        return id == that.id && is_blocked == that.is_blocked && phone_number.equals(that.phone_number) && plan.equals(that.plan) && client.equals(that.client);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, phone_number, is_blocked);
     }
 }

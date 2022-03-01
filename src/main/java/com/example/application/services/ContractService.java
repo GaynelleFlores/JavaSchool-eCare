@@ -40,6 +40,13 @@ public class ContractService {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public ContractDTO getContract(int id) {
+        ContractsEntity contract = contractDAO.show(id);
+        System.out.println(contract.toString());
+        return mapper.map(contract, ContractDTO.class);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void createContract(ContractDTO contract) {
         ClientsEntity client = mapper.map(clientsService.getClient(contract.getClient().getId()), ClientsEntity.class);
         PlansEntity plan = mapper.map(plansService.getPlan(contract.getPlan().getId()), PlansEntity.class);
@@ -52,12 +59,6 @@ public class ContractService {
     public void deleteContract(int id) {
         ContractsEntity contract = contractDAO.show(id);
         contractDAO.delete(contract);
-    }
-
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public ContractDTO getContract(int id) {
-        ContractsEntity contract = contractDAO.show(id);
-        return mapper.map(contract, ContractDTO.class);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)

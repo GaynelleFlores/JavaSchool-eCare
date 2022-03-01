@@ -34,6 +34,7 @@ public class ClientsService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public ClientDTO getClient(int id) {
         ClientsEntity client = clientDAO.show(id);
+        System.out.println(client.toString());
         return mapper.map(client, ClientDTO.class);
     }
 
@@ -41,7 +42,7 @@ public class ClientsService {
     public void deleteClient(int id) {
             clientDAO.delete(clientDAO.show(id));
     }
-    
+
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void createClient(ClientDTO client) {
         clientDAO.add(mapper.map(client, ClientsEntity.class));

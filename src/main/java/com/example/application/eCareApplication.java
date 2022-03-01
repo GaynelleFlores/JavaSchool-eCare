@@ -8,7 +8,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 @SpringBootApplication
 public class eCareApplication {
 
-
     public static void main(String[] args) {
         System.setProperty("spring.devtools.restart.enabled", "false");
         ApplicationContext context = new AnnotationConfigApplicationContext(eCareApplication.class);

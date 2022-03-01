@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +36,7 @@ public class OptionsService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public  OptionDTO getOption(int id) {
         OptionsEntity option = optionsDAO.show(id);
+        System.out.println(option.toString());
         return mapper.map(option, OptionDTO.class);
     }
 
