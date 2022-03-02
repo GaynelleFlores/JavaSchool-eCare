@@ -39,12 +39,4 @@ public class ContractsEntity implements Serializable {
             joinColumns = @JoinColumn(name = "contract_id"),
             inverseJoinColumns = @JoinColumn(name = "option_id"))
     Set<OptionsEntity> options;
-
-    public boolean getIs_blocked() {
-        return this.is_blocked;
-    }
-
-    public void setIs_blocked(boolean is_blocked) {
-        this.is_blocked = is_blocked;
-    }
 }
