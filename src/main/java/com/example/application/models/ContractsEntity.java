@@ -10,7 +10,7 @@ import java.util.Set;
 @Data
 @ToString(exclude = { "options", "client", "plan"})
 @Table(name = "contracts", schema = "public", catalog = "postgres")
-public class ContractsEntity implements Serializable {
+public class ContractsEntity {
 
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
