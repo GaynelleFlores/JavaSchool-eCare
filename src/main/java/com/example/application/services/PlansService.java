@@ -18,14 +18,14 @@ public class PlansService {
 
     private final PlansDAO plansDAO;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public List<PlanDTO> getPlansList() {
         return plansDAO.findAll().stream()
                 .map(entity -> mapper.map(entity, PlanDTO.class))
                 .collect(Collectors.toList());
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public  PlanDTO getPlan(int id) {
         PlansEntity plan = plansDAO.show(id);
         return mapper.map(plan, PlanDTO.class);

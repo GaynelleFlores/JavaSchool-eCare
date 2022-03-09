@@ -19,14 +19,14 @@ public class ClientsService {
 
     private final ClientDAO clientDAO;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public List<ClientDTO> getClientsList() {
         return clientDAO.findAll().stream()
                 .map(entity -> mapper.map(entity, ClientDTO.class))
                 .collect(Collectors.toList());
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public ClientDTO getClient(int id) {
         ClientsEntity client = clientDAO.show(id);
         return mapper.map(client, ClientDTO.class);

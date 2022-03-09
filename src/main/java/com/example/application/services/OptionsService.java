@@ -19,14 +19,14 @@ public class OptionsService {
 
     private final OptionsDAO optionsDAO;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public List<OptionDTO> getOptionsList() {
         return optionsDAO.findAll().stream()
                 .map(entity -> mapper.map(entity, OptionDTO.class))
                 .collect(Collectors.toList());
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public  OptionDTO getOption(int id) {
         OptionsEntity option = optionsDAO.show(id);
         return mapper.map(option, OptionDTO.class);

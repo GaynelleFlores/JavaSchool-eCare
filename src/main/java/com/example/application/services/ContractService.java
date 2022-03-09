@@ -25,14 +25,14 @@ public class ContractService {
 
     private final PlansService plansService;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public List<ContractDTO> getContractsList() {
         return contractDAO.findAll().stream()
                 .map(entity -> mapper.map(entity, ContractDTO.class))
                 .collect(Collectors.toList());
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public ContractDTO getContract(int id) {
         ContractsEntity contract = contractDAO.show(id);
         return mapper.map(contract, ContractDTO.class);
