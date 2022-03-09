@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contracts</title>
+
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <!--    <link rel="stylesheet" th:href="@{css/form.css}">-->
+</head>
+<body>
+<header class="bd-header bg-dark py-3 d-flex align-items-stretch border-bottom border-dark">
+    <div class="container-fluid d-flex align-items-center">
+        <h1 class="d-flex align-items-center fs-4 text-white mb-0">
+            <img th:src="@{images/bird.png}" width="38" height="30" class="me-3" alt="Bootstrap">
+            <!--      <img src="../assets/brand/bootstrap-logo-white.svg" width="38" height="30" class="me-3" alt="Bootstrap">-->
+            eCare
+        </h1>
+    </div>
+</header>
+<h4>Client list:</h4>
+<div th:each="contract : ${contracts}">
+    <a th:href="@{/contracts/{id}(id = ${contract.getId()})}" th:text="${contract.getId() + '. ' + contract.getPhone_number()}">contract</a>
+</div>
+<form th:action="@{/createContract}">
+    <button>Create new contract</button>
+</form>
+</body>
+</html>

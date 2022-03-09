@@ -1,0 +1,23 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+<persistence-unit name="com.example.application.eCareApplication" transaction-type="RESOURCE_LOCAL">
+    <description>Hibernate EntityManager</description>
+    <class>com.example.application.models.PlansEntity</class>
+    <class>com.example.application.models.ClientsEntity</class>
+    <class>com.example.application.models.OptionsEntity</class>
+    <class>com.example.application.models.ContractsEntity</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+        <property name="hibernate.hbm2ddl.auto" value="update"/>
+        <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>
+        <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+        <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/postgres"/>
+        <property name="javax.persistence.jdbc.user" value="OlKir"/>
+        <property name="javax.persistence.jdbc.password" value=""/>
+        <property name="javax.persistence.schema-generation.database.action" value="create"/>
+    </properties>
+</persistence-unit>
+</persistence>

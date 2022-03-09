@@ -1,7 +1,7 @@
 package com.example.application.models;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
+
 import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.Set;
@@ -9,6 +9,7 @@ import java.util.Set;
 @Entity
 @Data
 @Table(name = "options", schema = "public", catalog = "postgres")
+@NoArgsConstructor
 public class OptionsEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -22,13 +23,55 @@ public class OptionsEntity {
     private BigInteger price;
 
     @Column(name = "connection_cost")
-    private BigInteger connection_cost;
+    private BigInteger connectionCost;
 
     @ManyToMany(mappedBy = "options")
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     Set<ContractsEntity> contracts;
 
-    @ManyToMany(mappedBy = "allowed_options")
+    @ManyToMany(mappedBy = "allowedOptions")
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     Set<PlansEntity> plans;
+
+    @ManyToMany
+    @JoinTable(
+            name = "incompatible_options",
+            joinColumns = @JoinColumn(name = "first_id"),
+            inverseJoinColumns = @JoinColumn(name = "second_id"))
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    Set<OptionsEntity> incompatibleOptions;
+
+    @ManyToMany
+    @JoinTable(
+            name = "incompatible_options",
+            joinColumns = @JoinColumn(name = "second_id"),
+            inverseJoinColumns = @JoinColumn(name = "first_id"))
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    Set<OptionsEntity> incompatibleOptionsMirror;
+
+    @ManyToMany
+    @JoinTable(
+            name = "required_options",
+            joinColumns = @JoinColumn(name = "first_id"),
+            inverseJoinColumns = @JoinColumn(name = "second_id"))
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    Set<OptionsEntity> requiredOptions;
+
+    @ManyToMany
+    @JoinTable(
+            name = "required_options",
+            joinColumns = @JoinColumn(name = "second_id"),
+            inverseJoinColumns = @JoinColumn(name = "first_id"))
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    Set<OptionsEntity> requiredOptionsMirror;
+
+    public OptionsEntity(int id) {
+        this.id = id;
+    }
 }
