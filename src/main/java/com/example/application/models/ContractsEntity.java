@@ -39,20 +39,4 @@ public class ContractsEntity {
             joinColumns = @JoinColumn(name = "contract_id"),
             inverseJoinColumns = @JoinColumn(name = "option_id"))
     Set<OptionsEntity> options;
-
-    public boolean getIsBlocked() {
-        return isBlocked;
-    }
-
-    public void setIsBlocked(boolean blocked) {
-        isBlocked = blocked;
-    }
-
-    public boolean getIsBlockedByManager() {
-        return isBlockedByManager;
-    }
-
-    public void setBlockedByManager(boolean blockedByManager) {
-        isBlockedByManager = blockedByManager;
-    }
 }

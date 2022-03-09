@@ -21,28 +21,4 @@ public class ContractDTO {
     private boolean isBlockedByManager;
 
     Set<OptionsEntity> options;
-
-    public boolean containsOption(int optionId) {
-        for (OptionsEntity option : options) {
-            if (option.getId() == optionId)
-                return true;
-        }
-        return false;
-    }
-
-    public boolean getIsBlocked() {
-        return isBlocked;
-    }
-
-    public void setIsBlocked(boolean blocked) {
-        isBlocked = blocked;
-    }
-
-    public boolean getIsBlockedByManager() {
-        return isBlockedByManager;
-    }
-
-    public void setBlockedByManager(boolean blockedByManager) {
-        isBlockedByManager = blockedByManager;
-    }
 }
