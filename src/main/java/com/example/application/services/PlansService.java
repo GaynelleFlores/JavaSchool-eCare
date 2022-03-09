@@ -1,10 +1,10 @@
 package com.example.application.services;
 
-import com.example.application.dao.PlansDAO;
+import com.example.application.dao.implementations.PlansDAO;
 import com.example.application.dto.PlanDTO;
 import com.example.application.models.PlansEntity;
+import lombok.RequiredArgsConstructor;
 import org.dozer.DozerBeanMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,20 +12,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PlansService {
     private final DozerBeanMapper mapper;
 
     private final PlansDAO plansDAO;
 
-    @Autowired
-    public PlansService(PlansDAO plansDAO, DozerBeanMapper mapper) {
-        this.plansDAO = plansDAO;
-        this.mapper = mapper;
-    }
-
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<PlanDTO> getPlansList() {
-        return plansDAO.index().stream()
+        return plansDAO.findAll().stream()
                 .map(entity -> mapper.map(entity, PlanDTO.class))
                 .collect(Collectors.toList());
     }
@@ -33,7 +28,6 @@ public class PlansService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public  PlanDTO getPlan(int id) {
         PlansEntity plan = plansDAO.show(id);
-        System.out.println(plan.toString());
         return mapper.map(plan, PlanDTO.class);
     }
 

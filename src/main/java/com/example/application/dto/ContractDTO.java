@@ -1,28 +1,48 @@
 package com.example.application.dto;
 
 import com.example.application.models.ClientsEntity;
+import com.example.application.models.OptionsEntity;
 import com.example.application.models.PlansEntity;
 import lombok.Data;
+import java.util.Set;
 
 @Data
 public class ContractDTO {
     private int id;
 
-    private String phone_number;
+    private String phoneNumber;
 
     ClientsEntity client;
 
     PlansEntity plan;
 
-    private boolean is_blocked;
+    private boolean isBlocked;
 
-    public boolean getIs_blocked() {
-        return this.is_blocked;
+    private boolean isBlockedByManager;
+
+    Set<OptionsEntity> options;
+
+    public boolean containsOption(int optionId) {
+        for (OptionsEntity option : options) {
+            if (option.getId() == optionId)
+                return true;
+        }
+        return false;
     }
 
-    public void setIs_blocked(boolean is_blocked) {
-        this.is_blocked = is_blocked;
+    public boolean getIsBlocked() {
+        return isBlocked;
     }
 
-    private int client_id; //may be delete?
+    public void setIsBlocked(boolean blocked) {
+        isBlocked = blocked;
+    }
+
+    public boolean getIsBlockedByManager() {
+        return isBlockedByManager;
+    }
+
+    public void setBlockedByManager(boolean blockedByManager) {
+        isBlockedByManager = blockedByManager;
+    }
 }

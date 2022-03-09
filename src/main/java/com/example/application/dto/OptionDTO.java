@@ -1,9 +1,11 @@
 package com.example.application.dto;
 
 import com.example.application.models.ContractsEntity;
+import com.example.application.models.OptionsEntity;
+import com.example.application.models.PlansEntity;
 import lombok.Data;
 import java.math.BigInteger;
-import java.util.List;
+import java.util.Set;
 
 @Data
 public class OptionDTO {
@@ -14,7 +16,17 @@ public class OptionDTO {
 
     private BigInteger price;
 
-    private BigInteger connection_cost;
+    private BigInteger connectionCost;
 
-    List<ContractsEntity> contracts;
+    Set<ContractsEntity> contracts;
+
+    Set<PlansEntity> plans;
+
+    Set<OptionsEntity> incompatibleOptions;
+
+    Set<OptionsEntity> incompatibleOptionsMirror;
+
+    Set<OptionsEntity> requiredOptions;
+
+    Set<OptionsEntity> requiredOptionsMirror;
 }

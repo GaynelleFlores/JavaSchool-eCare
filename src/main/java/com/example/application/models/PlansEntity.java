@@ -28,9 +28,11 @@ public class PlansEntity {
             joinColumns = @JoinColumn(name = "plan_id"),
             inverseJoinColumns = @JoinColumn(name = "option_id"))
     @EqualsAndHashCode.Exclude
-    Set<OptionsEntity> allowed_options;
+    @ToString.Exclude
+    Set<OptionsEntity> allowedOptions;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "plan", cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "plan", cascade = CascadeType.REMOVE)
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<ContractsEntity> contracts;
 }

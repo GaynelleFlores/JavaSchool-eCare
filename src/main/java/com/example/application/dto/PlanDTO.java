@@ -16,7 +16,7 @@ public class PlanDTO {
 
     private BigInteger price;
 
-    Set<OptionsEntity> allowed_options;
+    Set<OptionsEntity> allowedOptions;
 
     private List<ContractsEntity> contracts;
 }

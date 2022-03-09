@@ -38,7 +38,7 @@ public class ClientsEntity {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "client", cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "client", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     @EqualsAndHashCode.Exclude
     private List<ContractsEntity> contracts;
 }

@@ -1,13 +1,12 @@
 package com.example.application.services;
 
-
-import com.example.application.dao.ContractDAO;
+import com.example.application.dao.implementations.ContractDAO;
 import com.example.application.dto.ContractDTO;
 import com.example.application.models.ClientsEntity;
 import com.example.application.models.ContractsEntity;
 import com.example.application.models.PlansEntity;
+import lombok.RequiredArgsConstructor;
 import org.dozer.DozerBeanMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ContractService {
 
     private final DozerBeanMapper mapper;
@@ -24,17 +24,10 @@ public class ContractService {
     private final ClientsService clientsService;
 
     private final PlansService plansService;
-    @Autowired
-    public ContractService(ContractDAO contractDAO, DozerBeanMapper mapper, ClientsService clientsService, PlansService plansService) {
-        this.contractDAO = contractDAO;
-        this.mapper = mapper;
-        this.clientsService = clientsService;
-        this.plansService = plansService;
-    }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<ContractDTO> getContractsList() {
-        return contractDAO.index().stream()
+        return contractDAO.findAll().stream()
                 .map(entity -> mapper.map(entity, ContractDTO.class))
                 .collect(Collectors.toList());
     }
@@ -42,7 +35,6 @@ public class ContractService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public ContractDTO getContract(int id) {
         ContractsEntity contract = contractDAO.show(id);
-        System.out.println(contract.toString());
         return mapper.map(contract, ContractDTO.class);
     }
 

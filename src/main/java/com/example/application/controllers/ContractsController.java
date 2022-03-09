@@ -2,20 +2,16 @@ package com.example.application.controllers;
 
 import com.example.application.dto.ContractDTO;
 import com.example.application.services.ContractService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequiredArgsConstructor
 public class ContractsController {
 
     private final ContractService contractService;
-
-    @Autowired
-    public ContractsController(ContractService contractService){
-        this.contractService = contractService;
-    }
 
     @GetMapping("contracts")
     public String index(Model model) {
@@ -29,32 +25,32 @@ public class ContractsController {
         return "contract";
     }
 
-    @GetMapping("/createContract")
+    @GetMapping("createContract")
     public String addContract(Model model) {
         model.addAttribute("contract", new ContractDTO());
         return "createContract";
     }
 
-    @PostMapping("/contracts")
+    @PostMapping("contracts")
     public String create(@ModelAttribute("contract") ContractDTO contract) {
         contractService.createContract(contract);
         return "success";
     }
 
     @DeleteMapping("contracts/{id}")
-    public String delete(@PathVariable("id") int id, Model model) {
+    public String delete(@PathVariable("id") int id) {
         contractService.deleteContract(id);
         return "success";
     }
 
-    @GetMapping("contract/{id}/edit")
+    @GetMapping("contracts/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("contract", contractService.getContract(id));
         return "editContract";
     }
 
-    @PatchMapping("contracts/{id}")
-    public String update(@ModelAttribute("contract") ContractDTO contract, @PathVariable("id") int id) {
+    @PostMapping("contracts/{id}")
+    public String update(@ModelAttribute("contract") ContractDTO contract) {
         contractService.updateContract(contract);
         return "success";
     }

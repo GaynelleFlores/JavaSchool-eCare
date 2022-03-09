@@ -1,21 +1,17 @@
 package com.example.application.controllers;
 
 import com.example.application.services.ClientsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.example.application.dto.ClientDTO;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequiredArgsConstructor
 public class ClientsController {
 
     private final ClientsService clientsService;
-
-    @Autowired
-    public ClientsController(ClientsService clientsService){
-        this.clientsService = clientsService;
-    }
 
     @GetMapping("clients")
     public String index(Model model) {
@@ -29,20 +25,20 @@ public class ClientsController {
         return "client";
     }
 
-    @GetMapping("/createClient")
+    @GetMapping("createClient")
     public String addClient(Model model) {
         model.addAttribute("client", new ClientDTO());
         return "createClient";
     }
 
-    @PostMapping("/clients")
+    @PostMapping("clients")
     public String create(@ModelAttribute("client") ClientDTO client) {
         clientsService.createClient(client);
         return "success";
     }
 
     @DeleteMapping("clients/{id}")
-    public String delete(@PathVariable("id") int id, Model model) {
+    public String delete(@PathVariable("id") int id) {
         clientsService.deleteClient(id);
         return "success";
     }
@@ -53,9 +49,8 @@ public class ClientsController {
         return "editClient";
     }
 
-    @PatchMapping("clients/{id}")
-    public String update(@ModelAttribute("client") ClientDTO client, @PathVariable("id") int id) {
-
+    @PostMapping("clients/{id}")
+    public String update(@ModelAttribute("client") ClientDTO client) {
         clientsService.updateClient(client);
         return "success";
     }
