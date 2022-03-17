@@ -23,7 +23,6 @@ public class ClientsRestController {
     @GetMapping("clients/{id}/getContracts")
     public List<ContractDTO> getContractsByClient(@PathVariable("id") int id) {
         ClientDTO cl = clientsService.getClient(id);
-        System.out.println(cl.getContracts());
         return cl.getContracts();
     }
 }
