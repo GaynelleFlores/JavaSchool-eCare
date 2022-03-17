@@ -46,5 +46,4 @@ public class ClientsService {
     public void updateClient(ClientDTO client) {
         clientDAO.edit(mapper.map(client, ClientsEntity.class));
     }
-
 }
