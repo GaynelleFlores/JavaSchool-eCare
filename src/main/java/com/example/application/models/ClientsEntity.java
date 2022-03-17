@@ -1,5 +1,6 @@
 package com.example.application.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import javax.persistence.*;
@@ -27,7 +28,7 @@ public class ClientsEntity {
     private String surname;
 
     @Column(name = "passport")
-    private String passport;
+    private char[] passport;
 
     @Column(name = "address")
     private String address;
@@ -38,6 +39,7 @@ public class ClientsEntity {
     @Column(name = "password")
     private String password;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "client", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     @EqualsAndHashCode.Exclude
     private List<ContractsEntity> contracts;

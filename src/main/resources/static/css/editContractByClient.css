@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin&family=Montserrat:ital,wght@0,300;1,300&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Cabin', sans-serif;
+    font-size: 1rem;
+    font-weight: 200;
+    line-height: 1.5;
+    color: #333;
+    text-align: left;
+    background: rgb(105,228,223);
+    background: linear-gradient(90deg, rgba(105,228,223,1) 0%, rgba(255,239,229,1) 100%);
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 0;
+    margin-bottom: 0.75rem; }
+
+h5, h6 {
+    font-family: 'Cabin', sans-serif;
+}
+
+.light-grey {
+
+    background-color:#fffbf7;
+}
+
+.custom-control-input::before{
+    background-color:black;
+}
+
+.bg-dark {
+    --bs-bg-opacity: 1;
+    background-color: #00959b !important;
+}
+
+.my-button {
+    background-color: #38c4cb;
+    border-color:#38c4cb;
+}
+
+.my-button:hover {
+    background-color: #00959b;
+    border-color: #007077;
+}
+
+.btn-check:active + .btn-primary, .btn-check:checked + .btn-primary, .btn-primary.active, .btn-primary:active, .show > .btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #38c4cb;
+    border-color: #38c4cb;
+}
+
+blue-color {
+    background-color: #38c4cb;
+    border-color:#38c4cb;
+}
+
+.container {
+    max-width: 960px;
+}
+
+.all-notifications {
+    right: 0;
+    position: absolute;
+    z-index: 999999;
+}
+.v-transition-enter {
+     transform: translateX(120px);
+     opacity: 0;
+ }
+.v-transition-enter-active {
+     transition: all .6s ease;
+ }
+.v-transition-enter-to {
+     opacity: 1;
+ }
+
+.v-transition-leave-active {
+    transition: all 0.5s ease;
+ }
+
+.v-transition-leave-to {
+
+    opacity: 0;
+    transform: translateX(30px);
+ }
+
+.v-transition-move {
+     transition: transform .6s ease;
+ }
+
+
+.my-notification {
+    padding: 16px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    top: 80px;
+    max-width: 200px;
+    background: #38c4cb;
+}
+
+.input-plan {
+    width: 150px;
+}
+
+.submit {
+    width: 150px;
+}
+
+.pricing-header {
+    max-width: 700px;
+}
+
+.min-height {
+    min-height:250px !important;
+}

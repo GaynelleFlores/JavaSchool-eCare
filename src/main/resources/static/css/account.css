@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin&family=Montserrat:ital,wght@0,300;1,300&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Cabin', sans-serif;
+    font-size: 1rem;
+    font-weight: 200;
+    line-height: 1.5;
+    color: #333;
+    text-align: left;
+    background: rgb(105,228,223);
+    background: linear-gradient(90deg, rgba(105,228,223,1) 0%, rgba(255,239,229,1) 100%);
+}
+
+.my-accordion {
+    max-width: 500px;
+}
+
+.contracts {
+    max-width: 500px;
+}
+
+.my-button {
+    background-color: #f4f4f4;
+    border-color:#38c4cb;
+    min-width: 80px !important;
+}
+
+.hello-message {
+    padding-right: 70px;
+    padding-left: 70px;
+}
+
+.block-contract {
+    padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: #ebebeb !important;
+    border-bottom: 1px solid rgba(0, 52, 52, 0.12);
+}
+
+
+.hide {
+    opacity: 0;
+}
+
+.my-button:hover {
+    background-color: #00959b;
+    border-color: #007077;
+}
+
+a {
+    font-family: 'Cabin', sans-serif;
+    color: #000000;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+
+.card-header {
+    padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    background-color:  #fffbf7;
+    border-bottom: 1px solid rgba(0, 52, 52, 0.12);
+}
+
+.card-body {
+    background-color:#f4f4f4;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+}
+

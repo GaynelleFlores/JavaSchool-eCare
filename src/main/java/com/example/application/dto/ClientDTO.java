@@ -1,11 +1,14 @@
 package com.example.application.dto;
 
-import com.example.application.models.ContractsEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
+
 import java.sql.Date;
 import java.util.List;
 
 @Data
+@ToString(exclude = { "contracts"})
 public class ClientDTO {
 
     private int id;
@@ -22,7 +25,8 @@ public class ClientDTO {
 
     private String email;
 
-    private String password;
+    private char[] password;
 
-    private List<ContractsEntity> contracts;
+    @JsonIgnore
+    private List<ContractDTO> contracts;
 }

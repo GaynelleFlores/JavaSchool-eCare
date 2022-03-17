@@ -3,43 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <title>Clients</title>
-
-    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
-
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
-    <!-- Custom styles for this template -->
-<!--    <link rel="stylesheet" th:href="@{css/form.css}">-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://localhost:8080/css/clients.css">
 </head>
+
 <body>
-<header class="bd-header bg-dark py-3 d-flex align-items-stretch border-bottom border-dark">
-    <div class="container-fluid d-flex align-items-center">
-        <h1 class="d-flex align-items-center fs-4 text-white mb-0">
-            <img th:src="@{images/bird.png}" width="38" height="30" class="me-3" alt="Bootstrap">
-            <!--      <img src="../assets/brand/bootstrap-logo-white.svg" width="38" height="30" class="me-3" alt="Bootstrap">-->
-            eCare
-        </h1>
+<div id="app">
+    <header class="bd-header py-3 d-flex align-items-stretch">
+        <div class="container-fluid d-flex align-items-center">
+            <h1 class="d-flex align-items-center fs-4 text-white mb-0">
+                <img th:src="@{http://localhost:8080/images/white_e.png}" width="50" height="50" class="me-3" alt="Bootstrap">
+                eCare
+            </h1>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row">
+            <button class="btn submit my-button create-button" v-on:click="redirectToCreate()">Create new client</button>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <input v-model="search" class="form-control" placeholder="Enter phone number">
+            </div>
+        </div>
+        <div clsss="row" v-show="result.length !== 0" :key="result">
+            <h5>Search results:</h5>
+            <table class="table">
+                <thead class="thead-inverse">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Phone number</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr  v-for="res in result" :key="res.id">
+                    <td>{{res.client.id}}</td>
+                    <td>{{res.client.name}}</td>
+                    <td>{{res.client.surname}}</td>
+                    <td>{{res.phoneNumber}}</td>
+                    <td>
+                        <button class="btn submit my-button" v-on:click="redirectToEdit(res.id)">Edit</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <h5>Clients:</h5>
+            <table class="table">
+                <thead class="thead-inverse">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr  v-for="client in clients" :key="client.id">
+                    <td>{{client.id}}</td>
+                    <td>{{client.name}}</td>
+                    <td>{{client.surname}}</td>
+                    <td>
+                        <button class="btn submit my-button" v-on:click="redirectToEdit(client.id)">Edit</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-</header>
-    <h4>Client list:</h4>
-    <div th:each="client : ${clients}">
-        <a th:href="@{/clients/{id}(id = ${client.getId()})}" th:text="${client.getId() + '. ' +client.getName() + ' ' + client.getSurname()}">user</a>
-    </div>
-    <form th:action="@{/createClient}">
-        <button>Create new client</button>
-    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.3"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script type="text/javascript"  th:src="@{/scripts/clients.js}"></script>
 </body>
 </html>

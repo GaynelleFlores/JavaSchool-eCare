@@ -1,7 +1,7 @@
 package com.example.application.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-
 import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.Set;
@@ -25,16 +25,19 @@ public class OptionsEntity {
     @Column(name = "connection_cost")
     private BigInteger connectionCost;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "options")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     Set<ContractsEntity> contracts;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "allowedOptions")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     Set<PlansEntity> plans;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "incompatible_options",
@@ -44,6 +47,7 @@ public class OptionsEntity {
     @ToString.Exclude
     Set<OptionsEntity> incompatibleOptions;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "incompatible_options",
@@ -53,6 +57,7 @@ public class OptionsEntity {
     @ToString.Exclude
     Set<OptionsEntity> incompatibleOptionsMirror;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "required_options",
@@ -62,6 +67,7 @@ public class OptionsEntity {
     @ToString.Exclude
     Set<OptionsEntity> requiredOptions;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "required_options",

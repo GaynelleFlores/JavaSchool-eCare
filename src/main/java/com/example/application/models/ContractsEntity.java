@@ -1,5 +1,6 @@
 package com.example.application.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import javax.persistence.*;
 import java.util.Set;
@@ -33,6 +34,7 @@ public class ContractsEntity {
     @EqualsAndHashCode.Exclude
     ClientsEntity client;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "contracts_options",

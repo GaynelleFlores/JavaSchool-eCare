@@ -1,7 +1,7 @@
 package com.example.application.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-
 import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.List;
@@ -22,6 +22,7 @@ public class PlansEntity {
     @Column(name = "price")
     private BigInteger price;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "plans_options",
@@ -31,6 +32,7 @@ public class PlansEntity {
     @ToString.Exclude
     Set<OptionsEntity> allowedOptions;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "plan", cascade = CascadeType.REMOVE)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
