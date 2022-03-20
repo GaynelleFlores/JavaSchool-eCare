@@ -11,8 +11,7 @@ public class jsonToClientDTOConverter implements Converter<String, ClientDTO> {
 
     @Override
     public ClientDTO convert(String s) {
-        ObjectMapper objectMapper;
-        objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
             return  objectMapper.readValue(s, ClientDTO.class);
         } catch (JsonProcessingException e) {

@@ -12,8 +12,7 @@ public class jsonToOptionDTOConverter implements Converter<String, OptionDTO> {
 
     @Override
     public OptionDTO convert(String s) {
-        ObjectMapper objectMapper;
-        objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
         if (s.equals("empty"))
             return null;
         try {

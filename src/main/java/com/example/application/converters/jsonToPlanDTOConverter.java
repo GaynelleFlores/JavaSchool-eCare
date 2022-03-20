@@ -12,8 +12,7 @@ public class jsonToPlanDTOConverter implements Converter<String, PlanDTO> {
 
     @Override
     public PlanDTO convert(String s) {
-        ObjectMapper objectMapper;
-        objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
             return  objectMapper.readValue(s, PlanDTO.class);
         } catch (JsonProcessingException e) {
