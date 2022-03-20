@@ -5,103 +5,61 @@
     <meta charset="UTF-8">
     <meta name="generator" content="Hugo 0.88.1">
     <title>Edit contract</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{http://localhost:8080/css/form.css}">
 
-    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
-
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" th:href="@{css/form.css}">
 </head>
 <body class="bg-light">
-
+<script type="text/javascript"  th:src="@{/scripts/editContractByClient.js}"></script>
 <header class="bd-header bg-dark py-3 d-flex align-items-stretch border-bottom border-dark">
     <div class="container-fluid d-flex align-items-center">
         <h1 class="d-flex align-items-center fs-4 text-white mb-0">
-            <img th:src="@{images/bird.png}" width="38" height="30" class="me-3" alt="Bootstrap">
-            <!--      <img src="../assets/brand/bootstrap-logo-white.svg" width="38" height="30" class="me-3" alt="Bootstrap">-->
+            <img th:src="@{http://localhost:8080/images/bird.png}" width="38" height="30" class="me-3" alt="Bootstrap">
             eCare
         </h1>
         <a href="../examples/cheatsheet-rtl/" class="ms-auto link-light" hreflang="ar">RTL cheatsheet</a>
     </div>
 </header>
-<tr th:if="${contract != null}">
-    <td><span th:text="${contract.getId()}"> Id </span></td>
-    <td><span th:text="${contract.getPhone_number()}"> Phone number </span></td>
-    <td><span th:text="${contract.getClient().getName()}"> ClientName </span></td>
-    <td><span th:text="${contract.getClient().getId()}"> ClientName </span></td>
-</tr>
 <div class="bd-cheatsheet container-fluid bg-body">
     <h1>Edit contract</h1>
+    <button type="button" th:onclick="showAlert()">Show Alert</button>
     <article class="my-3" id="validation">
         <div class="bd-heading sticky-xl-top align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
             <h3>Add personal information</h3>
         </div>
     </article>
         <div class="bd-example">
-
             <form th:method="PATCH" th:action="@{/contracts/{id}(id=${contract.getId()})}" th:object="${contract}">
-                <div class="col-md-6">
-                    <label for="phone_number">Enter phone number: </label>
-                    <input type="text" th:field="*{phone_number}" id="phone_number"/>
-                    <br/>
-                </div>
-                <div class="col-md-6">
-                    <label for="client_id">Enter client_id: </label>
-                    <input type="text" th:field="*{client.id}" id="client_id"/>
-                    <br/>
-                </div>
+<!--                -->
+<!--                <input type="checkbox" checked/> <input type="checkbox" checked/> <input type="checkbox"/>-->
+                <button type="button" th:onclick="showAlert(contract)">Show Alert</button>
+                <p>
+                    <label>Allowed options:</label>
+                                <div th:each="option : ${contract.getPlan().getAllowedOptions()}">
+                                        <input type="checkbox" th:checked="${contract.containsOption(option.id)} ? 'checked'"
+                                               th:text="${option.title}"
+                                               th:value="${option.id}"
+                                               th:field="*{options}"/>
+                                 </div>
+                </p>
                 <div class="col-md-6">
                     <label for="is_blocked">Block: </label>
-                    <input type="text" th:field="*{is_blocked}" id="is_blocked"/>
+                    <input type="text" th:field="*{isBlocked}" id="is_blocked"/>
                     <br/>
                 </div>
-
-
+<!--                Hidden blocks for form          -->
                 <div class="col-md-6">
-                    <label for="client">Hidden</label>
-                    <input type="hidden" th:field="*{plan.id}" id="client"/>
+                    <input type="hidden" th:field="*{plan.id}" id="plan"/>
                     <br/>
                 </div>
-<!--                <div class="col-md-6">-->
-<!--                    <label for="client_name">Enter client_id: </label>-->
-<!--                    <input type="hidden" th:field="*{client.name}" id="client_name"/>-->
-<!--                    <br/>-->
-<!--                </div>-->
-<!--                <div class="col-md-6">-->
-<!--                    <label for="client_surname">Enter client_id: </label>-->
-<!--                    <input type="hidden" th:field="*{client.surname}" id="client_surname"/>-->
-<!--                    <br/>-->
-<!--                </div>-->
-<!--                <div class="col-md-6">-->
-<!--                    <label for="client_birthday">Enter client_id: </label>-->
-<!--                    <input type="hidden" th:field="*{client.birthday}" id="client_birthday"/>-->
-<!--                    <br/>-->
-<!--                </div>-->
-<!--                <div class="col-md-6">-->
-<!--                    <label for="client_address">Enter address: </label>-->
-<!--                    <input type="hidden" th:field="*{client.address}" id="client_address"/>-->
-<!--                    <br/>-->
-<!--                </div>-->
-<!--                <div class="col-md-6">-->
-<!--                    <label for="client_passport">Enter passport: </label>-->
-<!--                    <input type="hidden" th:field="*{client.passport}" id="client_passport"/>-->
-<!--                    <br/>-->
-               </div>-->
-
+                <div class="col-md-6">
+                    <input type="hidden" th:field="*{phoneNumber}" id="phone_number"/>
+                    <br/>
+                </div>
+                <div class="col-md-6">
+                    <input type="hidden" th:field="*{client.id}" id="client_id"/>
+                    <br/>
+                </div>
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>
         </div>

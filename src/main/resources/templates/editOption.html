@@ -1,76 +1,125 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
-    <meta name="generator" content="Hugo 0.88.1">
     <title>Edit option</title>
-
-    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
-
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" th:href="@{css/form.css}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://localhost:8080/css/editOption.css">
 </head>
-<body class="bg-light">
 
-<header class="bd-header bg-dark py-3 d-flex align-items-stretch border-bottom border-dark">
-    <div class="container-fluid d-flex align-items-center">
-        <h1 class="d-flex align-items-center fs-4 text-white mb-0">
-            <img th:src="@{images/bird.png}" width="38" height="30" class="me-3" alt="Bootstrap">
-            <!--      <img src="../assets/brand/bootstrap-logo-white.svg" width="38" height="30" class="me-3" alt="Bootstrap">-->
-            eCare
-        </h1>
-        <a href="../examples/cheatsheet-rtl/" class="ms-auto link-light" hreflang="ar">RTL cheatsheet</a>
+<body>
+<div id="app">
+    <header class="bd-header py-3 d-flex align-items-stretch">
+        <div class="container-fluid d-flex align-items-center">
+            <h1 class="d-flex align-items-center fs-4 text-white mb-0">
+                <img th:src="@{http://localhost:8080/images/white_e.png}" width="50" height="50" class="me-3" alt="Bootstrap">
+                eCare
+            </h1>
+        </div>
+    </header>
+    <div class="container">
+        <h4>Edit basic information: </h4>
+        <form>
+            <div class="form-group">
+                <label for="inputTitle">Title</label>
+                <input type="text" required v-model="title" class="form-control" id="inputTitle">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputPrice">Price</label>
+                    <input required  v-model="price" type="text" class="form-control" id="inputPrice">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputConnectionCost">Connection cost</label>
+                    <input type="text" required  v-model="connectionCost" class="form-control" id="inputConnectionCost">
+                </div>
+            </div>
+            <h4>Add rules: </h4>
+        </form>
+        <div class="row">
+            <div class="col-lg-6 p-3">
+                <div class="card d-flex justify-content-center min-height light-grey">
+                    <h5 class="d-flex align-items-center justify-content-center"> Incompatible options </h5>
+                    <div class="d-flex justify-content-start">
+                        <ul>
+                            <div v-for="(option, index) in myIncOptions"
+                                 :key="option.id">
+                                <input type="checkbox" v-on:change="doCheck(index, 'remove inc')" checked>
+                                <span>{{ option.id }} {{ option.title }}</span>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 p-3">
+                <div class="card d-flex justify-content-center min-height light-grey">
+                    <h5 class="d-flex align-items-center justify-content-center"> All options </h5>
+                    <div class="d-flex justify-content-start">
+                        <ul class="options-list">
+                            <div v-for="(option, index) in allIncOptions"
+                                 :key="option.id">
+                                <input type="checkbox" v-on:change="doCheck(index, 'add inc')">
+                                <span>{{ option.id }} {{ option.title }}</span>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 p-3">
+                <div class="card d-flex justify-content-center min-height light-grey">
+                    <h5 class="d-flex align-items-center justify-content-center"> Required options </h5>
+                    <div class="d-flex justify-content-start">
+                        <ul>
+                            <div v-for="(option, index) in myReqOptions"
+                                 :key="option.id">
+                                <input type="checkbox" v-on:change="doCheck(index, 'remove req')" checked>
+                                <span>{{ option.id }} {{ option.title }}</span>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 p-3">
+                <div class="card d-flex justify-content-center min-height light-grey">
+                    <h5 class="d-flex align-items-center justify-content-center"> All options </h5>
+                    <div class="d-flex justify-content-start">
+                        <ul class="options-list">
+                            <div v-for="(option, index) in allReqOptions"
+                                 :key="option.id">
+                                <input type="checkbox" v-on:change="doCheck(index, 'add req')">
+                                <span>{{ option.id }} {{ option.title }}</span>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col d-flex align-items-center justify-content-center">
+                <div v-if="isValid === false" :key="isValid" class="alert alert-danger d-flex align-items-center justify-content-center">
+                    <h6 >Incompatible and Required options shouldn't contain the same options!</h6>
+                </div>
+                <div v-else>
+                    <button type="submit" v-on:click="post" class="btn btn-primary my-button">Edit</button>
+                </div>
+            </div>
+            <div class="col d-flex align-items-center justify-content-center">
+                <div>
+                    <button type="submit" v-on:click="deleteOption" class="btn btn-primary my-button">Delete</button>
+                </div>
+            </div>
+        </div>
     </div>
-</header>
-<!--<tr th:if="${contract != null}">-->
-<!--    <td><span th:text="${option.getId()}"> Id </span></td>-->
-<!--    <td><span th:text="${option.getPhone_number()}"> Phone number </span></td>-->
-<!--    <td><span th:text="${contract.getClient().getName()}"> ClientName </span></td>-->
-<!--    <td><span th:text="${contract.getClient_id}"> ClientName </span></td>-->
-<!--</tr>-->
-<div class="bd-cheatsheet container-fluid bg-body">
-    <h1>Edit contract</h1>
-    <article class="my-3" id="validation">
-        <div class="bd-heading sticky-xl-top align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
-            <h3>Add personal information</h3>
-        </div>
-    </article>
-        <div class="bd-example">
-
-            <form th:method="PATCH" th:action="@{/options/{id}(id=${option.getId()})}" th:object="${option}">
-                <div class="col-md-6">
-                    <label for="title">Enter title: </label>
-                    <input type="text" th:field="*{title}" id="title"/>
-                    <br/>
-                </div>
-                <div class="col-md-6">
-                    <label for="price">Enter price: </label>
-                    <input th:field="*{price}" id="price"/>
-                    <br/>
-                </div>
-                <div class="col-md-6">
-                    <label for="connection_cost">Enter connection cost: </label>
-                    <input type="text" th:field="*{connection_cost}" id="connection_cost"/>
-                    <br/>
-                </div>
-                    <button type="submit" class="btn btn-primary">Update</button>
-            </form>
-        </div>
+    </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.3"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script type="text/javascript"  th:src="@{/scripts/editOption.js}"></script>
 </body>
+</html>

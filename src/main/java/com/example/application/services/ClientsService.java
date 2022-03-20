@@ -2,6 +2,7 @@ package com.example.application.services;
 
 import com.example.application.dao.implementations.ClientDAO;
 import com.example.application.models.ClientsEntity;
+import com.example.application.validation.ClientValidation;
 import lombok.RequiredArgsConstructor;
 import org.dozer.DozerBeanMapper;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ClientsService {
+
+    private final ClientValidation clientValidation;
 
     private final DozerBeanMapper mapper;
 
@@ -39,12 +42,23 @@ public class ClientsService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void createClient(ClientDTO client) {
+        if (client.getEmail().isEmpty()) {
+            client.setEmail(null);
+        }
+        if (!clientValidation.validateClient(mapper.map(client, ClientsEntity.class))) {
+            throw new RuntimeException("Failed to create client");
+        }
         clientDAO.add(mapper.map(client, ClientsEntity.class));
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void updateClient(ClientDTO client) {
+        if (client.getEmail().isEmpty()) {
+            client.setEmail(null);
+        }
+        if (!clientValidation.validateClient(mapper.map(client, ClientsEntity.class))) {
+            throw new RuntimeException("Failed to create client");
+        }
         clientDAO.edit(mapper.map(client, ClientsEntity.class));
     }
-
 }

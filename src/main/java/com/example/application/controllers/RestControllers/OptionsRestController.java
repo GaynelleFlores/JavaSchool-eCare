@@ -1,16 +1,12 @@
 package com.example.application.controllers.RestControllers;
 
 import com.example.application.dto.OptionDTO;
-import com.example.application.dto.PlanDTO;
-import com.example.application.models.OptionsEntity;
-import com.example.application.services.ContractService;
 import com.example.application.services.OptionsService;
-import com.example.application.services.PlansService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,33 +16,35 @@ public class OptionsRestController {
 
     private final OptionsService optionsService;
 
-    private final PlansService plansService;
-
-    @GetMapping("getPlansList")
-    public List<PlanDTO> getPlansList() {
-        return plansService.getPlansList();
-    }
-
     @GetMapping("allOptions")
     public List<OptionDTO> getAllOptions(Model model) {
         return optionsService.getOptionsList();
     }
 
     @GetMapping("requiredOptions/{id}")
-    public Set<OptionsEntity> getRequiredOptions(@PathVariable("id") int id, Model model) {
-        OptionDTO opt = optionsService.getOption(id);
-        Set<OptionsEntity> result = new HashSet<OptionsEntity>();
-        result.addAll(opt.getRequiredOptions());
-        result.addAll(opt.getRequiredOptionsMirror());
-        return result;
+    public Set<OptionDTO> getRequiredOptions(@PathVariable("id") int id) {
+        return optionsService.getRequiredOptions(id);
+    }
+
+    @PostMapping("options/update")
+    public ResponseEntity<Object> updateOption(@RequestParam OptionDTO option, @RequestParam Set<OptionDTO> reqOptions, @RequestParam Set<OptionDTO> incOptions) {
+        optionsService.updateOption(option, reqOptions, incOptions);
+        return ResponseEntity.ok("Option was updated");
+    }
+
+    @PostMapping("options/create")
+    public ResponseEntity<Object> createOption(@RequestParam OptionDTO option, @RequestParam Set<OptionDTO> reqOptions, @RequestParam Set<OptionDTO> incOptions) {
+        optionsService.createOption(option, reqOptions, incOptions);
+        return ResponseEntity.ok("Option was created");
     }
 
     @GetMapping("incompatibleOptions/{id}")
-    public Set<OptionsEntity> getIcompatibleOptions(@PathVariable("id") int id, Model model) {
-        OptionDTO opt = optionsService.getOption(id);
-        Set<OptionsEntity> result = new HashSet<OptionsEntity>();
-        result.addAll(opt.getIncompatibleOptions());
-        result.addAll(opt.getIncompatibleOptionsMirror());
-        return result;
+    public Set<OptionDTO> getIncompatibleOptions(@PathVariable("id") int id) {
+        return optionsService.getIncompatibleOptions(id);
+    }
+
+    @GetMapping("getOption/{id}")
+    public OptionDTO getOption(@PathVariable("id") int id) {
+        return optionsService.getOption(id);
     }
 }

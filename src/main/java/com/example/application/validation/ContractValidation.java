@@ -17,7 +17,7 @@ public class ContractValidation {
     }
 
     private boolean checkOptionsIsAllowed(ContractsEntity contract) {
-        if (contract.getPlan().getAllowedOptions() == null && contract.getOptions() != null) {
+        if (contract.getPlan().getAllowedOptions() == null && contract.getOptions().size() > 0) {
             logger.error("Contract with id=" + contract.getId() + " contains not allowed option.");
             return false;
         }
@@ -59,21 +59,36 @@ public class ContractValidation {
         for (OptionsEntity option : contract.getOptions()) {
             Set<OptionsEntity> temp = createTempSet(option.getIncompatibleOptions(), option.getIncompatibleOptionsMirror());
             if (!checkIncompatibleOptions(temp, contract.getOptions())) {
-                logger.error("Contract with id=" + contract.getId() + " contains incompatible options");
+                logger.error("Contract contains incompatible options");
                 return false;
             }
             temp = createTempSet(option.getRequiredOptions(), option.getRequiredOptionsMirror());
             if (!checkRequiredOptions(temp, contract.getOptions())) {
-                logger.error("Contract with id=" + contract.getId() + " doesn't contain required options");
+                logger.error("Contract doesn't contain required options");
                 return false;
             }
         }
         return true;
     }
 
+    private boolean validatePhoneNumber(String phoneNumber) {
+        String regexp = "8\\d{4}";
+        if (phoneNumber == null)
+            return false;
+        return phoneNumber.matches(regexp);
+    }
+
     public boolean validateContract(ContractsEntity contract) {
         if (contract.getIsBlocked()) {
-            logger.error("Contract with id=" + contract.getId() + " is blocked, it is impossible to edit it.");
+            logger.error("Contract is blocked, it is impossible to edit it.");
+            return false;
+        }
+        if (!validatePhoneNumber(contract.getPhoneNumber())) {
+            logger.error("Phone number is incorrect.");
+            return false;
+        }
+        if (contract.getPlan() == null) {
+            logger.error("Contract has no plan.");
             return false;
         }
         if (contract.getOptions() == null) {
@@ -81,4 +96,15 @@ public class ContractValidation {
         }
         return checkOptionsIsAllowed(contract) && checkOptions(contract);
     }
+
+    public boolean validateBlocking(ContractsEntity contract, boolean isBlocked, boolean isBlockedByManager) {
+        if (!isBlocked) {
+            if (contract.getIsBlockedByManager() && !isBlockedByManager) {
+                logger.error("Contract was blocked by manager, client can't unblock it.");
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

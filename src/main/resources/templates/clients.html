@@ -19,7 +19,7 @@
     </header>
     <div class="container">
         <div class="row">
-            <button class="btn submit my-button create-button" v-on:click="redirectToCreate()">Create new client</button>
+            <button class="btn submit create-button" v-on:click="redirectToCreate()">Create new client</button>
         </div>
         <div class="row">
             <div class="form-group">
@@ -60,6 +60,7 @@
                     <th>Name</th>
                     <th>Surname</th>
                     <th></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -70,13 +71,15 @@
                     <td>
                         <button class="btn submit my-button" v-on:click="redirectToEdit(client.id)">Edit</button>
                     </td>
+                    <td>
+                        <button class="btn submit my-button" v-on:click="redirectToDelete(client.id)">Delete</button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.3"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

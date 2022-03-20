@@ -46,7 +46,13 @@ public class ContractsController {
     @GetMapping("contracts/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("contract", contractService.getContract(id));
-        return "editContract";
+        return "editContractByClient";
+    }
+
+    @GetMapping("contracts/{id}/editByManager")
+    public String editByManager(Model model, @PathVariable("id") int id) {
+        model.addAttribute("contract", contractService.getContract(id));
+        return "editContractByManager";
     }
 
     @PostMapping("contracts/{id}")

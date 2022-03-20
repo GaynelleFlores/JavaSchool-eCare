@@ -1,0 +1,23 @@
+.big-button {
+    width: 150px;
+    height: 150px;
+    margin: 20px;
+    background-color: #38c4cb;
+    border-color: #38c4cb;
+}
+
+.big-button :hover{
+    width: 150px;
+    height: 150px;
+    margin: 20px;
+    background-color: #259196;
+    border-color: #259196;
+}
+
+.col {
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    max-width: 20%;
+}

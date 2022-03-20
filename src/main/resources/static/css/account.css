@@ -12,6 +12,26 @@ body {
     background: linear-gradient(90deg, rgba(105,228,223,1) 0%, rgba(255,239,229,1) 100%);
 }
 
+.my-cart {
+    margin-left: auto;
+    margin-right: 0;
+    width: 330px;
+}
+
+.my-btn {
+    color: #fff;
+    background-color: transparent;
+    border-color: transparent;
+    width: 330px;
+}
+
+.btn-check:focus + .my-btn, .my-btn:focus {
+    color: #fff;
+    background-color: transparent;
+    border-color: transparent;
+    width: 330px;
+}
+
 .my-accordion {
     max-width: 500px;
 }

@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Cabin&family=Montserrat:ital,wght@0,300;1,300&display=swap');
 
+
 body {
     margin: 0;
+    width: 100%;
     font-family: 'Cabin', sans-serif;
     font-size: 1rem;
     font-weight: 200;
@@ -21,6 +23,10 @@ h5, h6 {
     font-family: 'Cabin', sans-serif;
 }
 
+.my-margin {
+    margin-bottom: 5px;
+}
+
 .light-grey {
 
     background-color:#fffbf7;
@@ -38,6 +44,12 @@ h5, h6 {
 .my-button {
     background-color: #38c4cb;
     border-color:#38c4cb;
+    margin-bottom: 15px;
+}
+
+.my-width {
+    width: 200px;
+    margin-bottom: 10px;
 }
 
 .my-button:hover {
@@ -117,4 +129,27 @@ blue-color {
 
 .min-height {
     min-height:250px !important;
+}
+
+.my-btn {
+    color: #fff;
+    background-color: transparent;
+    border-color: transparent;
+    width: 300px;
+}
+
+.btn-check:focus + .my-btn, .my-btn:focus {
+    color: #fff;
+    background-color: transparent;
+    border-color: transparent;
+    width: 300px;
+}
+
+.my-card-body {
+    width: 300px;
+}
+
+.my-cart {
+    margin-left: auto;
+    margin-right: 0;
 }

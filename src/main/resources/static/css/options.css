@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin&family=Montserrat:ital,wght@0,300;1,300&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Cabin', sans-serif;
+    font-size: 1rem;
+    font-weight: 200;
+    line-height: 1.5;
+    color: #333;
+    text-align: left;
+    background: rgb(105,228,223);
+    background: linear-gradient(90deg, rgba(105,228,223,1) 0%, rgba(255,239,229,1) 100%);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+}
+
+.my-button {
+    background-color: #38c4cb;
+    border-color:#38c4cb;
+    margin-bottom: 30px;
+    width: 75px;
+}
+
+.create-button {
+    background-color: #38c4cb;
+    border-color:#38c4cb;
+    margin-bottom: 30px;
+}
+
+.create-button:hover {
+    background-color: #00959b;
+    border-color: #00959b;
+}
+
+.table {
+    width: 100%;
+    max-width: 100%;
+    background-color: transparent;
+    margin: auto auto 50px auto;
+}
+
+.my-button:hover {
+    background-color: #00959b;
+    border-color: #007077;
+    margin-bottom: 30px;
+    width: 75px;
+}
+
+.container {
+    max-width: 900px;
+}

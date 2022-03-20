@@ -5,13 +5,12 @@
 
     <meta charset="UTF-8">
     <title>Contract</title>
-
-    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
-    <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">-->
+    <link rel="stylesheet" th:href="@{http://localhost:8080/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="http://localhost:8080/css/contracts.css">
 </head>
 <body>
 
-<h1>Client</h1>
+
 <table>
     <thead>
     <tr>
@@ -20,14 +19,10 @@
         <th> Surname </th>
     </tr>
     </thead>
-    <tbody>
-    <tr th:if="${contract == null}">
-        <td colspan="2"> No client with  requested id. </td>
-    </tr>
     <tr th:if="${contract != null}">
 
         <td><span th:text="${contract.getId()}"> Id </span></td>
-        <td><span th:text="${contract.getPhone_number()}"> Phone number </span></td>
+        <td><span th:text="${contract.getPhoneNumber()}"> Phone number </span></td>
         <td><span th:text="${contract.getClient().getName()}"> ClientName </span></td>
     </tr>
     </tbody>
@@ -36,7 +31,7 @@
     <form th:method="DELETE" th:action="@{/contracts/{id}(id=${contract.getId()})}" class="row g-3">
         <input type="submit" value="Delete"/>
     </form>
-    <form th:method="GET" th:action="@{/contract/{id}/edit(id = ${contract.getId()})}" class="row g-3">
+    <form th:method="GET" th:action="@{/contracts/{id}/edit(id = ${contract.getId()})}" class="row g-3">
         <input type="submit" value="Edit"/>
     </form>
 </div>
