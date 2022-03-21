@@ -1,6 +1,7 @@
 package com.example.application.services;
 
 import com.example.application.dao.implementations.ClientDAO;
+import com.example.application.exceptions.BusinessLogicException;
 import com.example.application.models.ClientsEntity;
 import com.example.application.validation.ClientValidation;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,9 @@ public class ClientsService {
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public ClientDTO getClient(int id) {
         ClientsEntity client = clientDAO.show(id);
+        if (client == null) {
+            throw new BusinessLogicException("Client not found");
+        }
         return mapper.map(client, ClientDTO.class);
     }
 
@@ -46,7 +50,7 @@ public class ClientsService {
             client.setEmail(null);
         }
         if (!clientValidation.validateClient(mapper.map(client, ClientsEntity.class))) {
-            throw new RuntimeException("Failed to create client");
+            throw new BusinessLogicException("Failed to create client. Some field contains invalid information.");
         }
         clientDAO.add(mapper.map(client, ClientsEntity.class));
     }
@@ -57,7 +61,7 @@ public class ClientsService {
             client.setEmail(null);
         }
         if (!clientValidation.validateClient(mapper.map(client, ClientsEntity.class))) {
-            throw new RuntimeException("Failed to create client");
+            throw new BusinessLogicException("Failed to update client. Some field contains invalid information.");
         }
         clientDAO.edit(mapper.map(client, ClientsEntity.class));
     }

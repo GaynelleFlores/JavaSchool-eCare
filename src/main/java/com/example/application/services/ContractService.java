@@ -5,6 +5,7 @@ import com.example.application.dto.ClientDTO;
 import com.example.application.dto.ContractDTO;
 import com.example.application.dto.OptionDTO;
 import com.example.application.dto.PlanDTO;
+import com.example.application.exceptions.BusinessLogicException;
 import com.example.application.mapping.SetMapping;
 import com.example.application.models.ClientsEntity;
 import com.example.application.models.ContractsEntity;
@@ -43,6 +44,9 @@ public class ContractService {
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public ContractDTO getContract(int id) {
         ContractsEntity contract = contractDAO.show(id);
+        if (contract == null) {
+            throw new BusinessLogicException("Contract not found");
+        }
         return mapper.map(contract, ContractDTO.class);
     }
 
@@ -52,6 +56,9 @@ public class ContractService {
         PlansEntity plan = mapper.map(plansService.getPlan(contract.getPlan().getId()), PlansEntity.class);
         contract.setClient(client);
         contract.setPlan(mapper.map(plan, PlanDTO.class));
+        if (!contractValidation.validateContract(mapper.map(contract, ContractsEntity.class))) {
+            throw new BusinessLogicException("Failed to update contract, contract is invalid.");
+        }
         contractDAO.add(mapper.map(contract, ContractsEntity.class));
     }
 
@@ -60,13 +67,17 @@ public class ContractService {
         ContractsEntity contract = new ContractsEntity();
         contract.setOptions(SetMapping.optionsMapping(options));
         contract.setPhoneNumber(phoneNumber);
-        contract.setPlan(mapper.map(plan, PlansEntity.class));
+        contract.setPlan(mapper.map(plansService.getPlan(plan.getId()), PlansEntity.class));
         contract.setClient(mapper.map(client, ClientsEntity.class));
+        if (!contractValidation.validateContract(mapper.map(contract, ContractsEntity.class))) {
+            throw new BusinessLogicException("Failed to create contract, contract is invalid.");
+        }
         contractDAO.add(mapper.map(contract, ContractsEntity.class));
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void deleteContract(int id) {
+        System.out.println("DELETE");
         ContractsEntity contract = contractDAO.show(id);
         contractDAO.delete(contract);
     }
@@ -78,7 +89,7 @@ public class ContractService {
         contract.setClient(client);
         contract.setPlan(mapper.map(plan, PlanDTO.class));
         if (!contractValidation.validateContract(mapper.map(contract, ContractsEntity.class))) {
-            throw new RuntimeException("Failed to update contract, contract is invalid");
+            throw new BusinessLogicException("Failed to update contract, contract is invalid.");
         }
         contractDAO.edit(mapper.map(contract, ContractsEntity.class));
     }
@@ -89,7 +100,7 @@ public class ContractService {
         contract.setOptions(SetMapping.optionsMapping(options));
         contract.setPlan(mapper.map(plansService.getPlan(plan.getId()), PlansEntity.class));
         if (!contractValidation.validateContract(contract)) {
-            throw new RuntimeException("Failed to update contract, contract is invalid");
+            throw new BusinessLogicException("Failed to update contract, contract is invalid.");
         }
         contractDAO.edit(contract);
     }
@@ -100,7 +111,7 @@ public class ContractService {
         contract.setIsBlocked(isBlocked);
         contract.setIsBlockedByManager(isBlockedByManager);
         if (!contractValidation.validateBlocking(contract, isBlocked, isBlockedByManager)) {
-            throw new RuntimeException("Failed to unblock contract");
+            throw new BusinessLogicException("Failed to unblock contract.");
         }
         contractDAO.edit(contract);
     }

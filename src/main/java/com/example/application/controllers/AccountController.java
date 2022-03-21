@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 @RequiredArgsConstructor
-public class    AccountController {
+public class AccountController {
 
     private final ClientsService clientsService;
 

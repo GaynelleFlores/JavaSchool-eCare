@@ -3,6 +3,7 @@ package com.example.application.services;
 import com.example.application.dao.implementations.PlansDAO;
 import com.example.application.dto.OptionDTO;
 import com.example.application.dto.PlanDTO;
+import com.example.application.exceptions.BusinessLogicException;
 import com.example.application.mapping.SetMapping;
 import com.example.application.models.PlansEntity;
 import com.example.application.validation.PlanValidation;
@@ -35,6 +36,9 @@ public class PlansService {
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public  PlanDTO getPlan(int id) {
         PlansEntity plan = plansDAO.show(id);
+        if (plan == null) {
+            throw new BusinessLogicException("Plan not found");
+        }
         return mapper.map(plan, PlanDTO.class);
     }
 
@@ -50,7 +54,7 @@ public class PlansService {
         plan.setTitle(planDTO.getTitle());
         plan.setPrice(planDTO.getPrice());
         if (!planValidation.validatePlan(plan)) {
-            throw new RuntimeException("Failed to create plan, plan is invalid");
+            throw new BusinessLogicException("Failed to create plan, plan is invalid");
         }
         plansDAO.add(plan);
     }
@@ -61,8 +65,12 @@ public class PlansService {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void updatePlan(PlanDTO plan) {
-        plansDAO.edit(mapper.map(plan, PlansEntity.class));
+    public void updatePlan(PlanDTO planDTO) {
+        PlansEntity plan = mapper.map(planDTO, PlansEntity.class);
+        if (!planValidation.validatePlan(plan)) {
+            throw new BusinessLogicException("Failed to update plan, plan is invalid");
+        }
+        plansDAO.edit(plan);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -71,6 +79,9 @@ public class PlansService {
         plan.setAllowedOptions(SetMapping.optionsMapping(allowedOptions));
         plan.setTitle(planDTO.getTitle());
         plan.setPrice(planDTO.getPrice());
+        if (!planValidation.validatePlan(plan)) {
+            throw new BusinessLogicException("Failed to update plan, plan is invalid");
+        }
         plansDAO.edit(plan);
     }
 }

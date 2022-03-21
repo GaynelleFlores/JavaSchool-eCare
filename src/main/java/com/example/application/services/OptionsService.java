@@ -2,6 +2,7 @@ package com.example.application.services;
 
 import com.example.application.dao.implementations.OptionsDAO;
 import com.example.application.dto.OptionDTO;
+import com.example.application.exceptions.BusinessLogicException;
 import com.example.application.mapping.SetMapping;
 import com.example.application.models.OptionsEntity;
 import com.example.application.validation.OptionValidation;
@@ -34,7 +35,11 @@ public class OptionsService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public  OptionDTO getOption(int id) {
-        return mapper.map(optionsDAO.show(id), OptionDTO.class);
+        OptionsEntity option = optionsDAO.show(id);
+        if (option == null) {
+            throw new BusinessLogicException("Option not found");
+        }
+        return mapper.map(option, OptionDTO.class);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
