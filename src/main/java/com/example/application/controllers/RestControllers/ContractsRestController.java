@@ -1,9 +1,10 @@
 package com.example.application.controllers.RestControllers;
 
+import com.example.application.dto.ClientDTO;
 import com.example.application.dto.ContractDTO;
+import com.example.application.dto.OptionDTO;
 import com.example.application.dto.PlanDTO;
 import com.example.application.models.OptionsEntity;
-import com.example.application.models.PlansEntity;
 import com.example.application.services.ContractService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,21 +24,22 @@ public class ContractsRestController {
         return contractService.getContract(id).getOptions();
     }
 
-    @PostMapping("contracts/{id}")
-    public ResponseEntity<Object> update(@PathVariable("id") int id, @RequestParam Set<OptionsEntity> options, @RequestParam PlansEntity plan) {
-        try {
-            contractService.updateContract(id, options, plan);
-        }
-        catch (RuntimeException e) {
-            return ResponseEntity.ok(e.getMessage());
-        }
-        return ResponseEntity.ok("Contract updated");
+    @PostMapping("contracts/{id}/update")
+    public ResponseEntity<String> update(@PathVariable("id") int id, @RequestParam Set<OptionDTO> options, @RequestParam PlanDTO plan) {
+        contractService.updateContract(id, options, plan);
+        return ResponseEntity.ok("Contract was updated");
+    }
+
+    @PostMapping("contracts/create")
+    public ResponseEntity<String> createContract(@RequestParam Set<OptionDTO> options, @RequestParam PlanDTO plan, @RequestParam ClientDTO client, @RequestParam String phoneNumber) {
+        contractService.createContract(options, plan, client, phoneNumber);
+        return ResponseEntity.ok("Contract was created");
     }
 
     @PostMapping("contracts/{id}/block")
-    public ResponseEntity<Object> blockContract(@PathVariable("id") int id, @RequestParam boolean isBlocked, @RequestParam boolean isBlockedByManager) {
+    public ResponseEntity<String> blockContract(@PathVariable("id") int id, @RequestParam boolean isBlocked, @RequestParam boolean isBlockedByManager) {
         contractService.blockContract(id, isBlocked, isBlockedByManager);
-        return ResponseEntity.ok("Contract updated");
+        return ResponseEntity.ok("Contract was updated");
     }
 
     @GetMapping("contracts/{id}/get")

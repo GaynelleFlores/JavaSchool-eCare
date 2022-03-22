@@ -21,6 +21,7 @@ h1, h2, h3, h4, h5, h6 {
 .my-button {
     background-color: #38c4cb;
     border-color:#38c4cb;
+    width: 70px;
 }
 
 .table {
@@ -33,6 +34,7 @@ h1, h2, h3, h4, h5, h6 {
 .my-button:hover {
     background-color: #00959b;
     border-color: #007077;
+    width: 70px;
 }
 
 .container {

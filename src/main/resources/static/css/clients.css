@@ -21,15 +21,25 @@ h1, h2, h3, h4, h5, h6 {
 .my-button {
     background-color: #38c4cb;
     border-color:#38c4cb;
+    width: 70px;
+}
+
+.my-button:hover {
+    background-color: #00959b;
+    border-color: #007077;
+    width: 70px;
 }
 
 .create-button {
+    width: 140px;
     margin-bottom: 50px;
-    background-color: #FFEFE5FF;
-    border-color: #FFEFE5FF;
+    background-color: #00959b;
+    border-color: #00959b;
 }
 
 .create-button:hover {
+    width: 140px;
+    margin-bottom: 50px;
     background-color: #00959b;
     border-color: #00959b;
 }
@@ -41,10 +51,6 @@ h1, h2, h3, h4, h5, h6 {
     margin: auto auto 50px auto;
 }
 
-.my-button:hover {
-    background-color: #00959b;
-    border-color: #007077;
-}
 
 .container {
     max-width: 900px;

@@ -16,8 +16,14 @@ new Vue({
         axios.get('http://localhost:8080/allContracts').then(response => (this.contracts = response.data));
         },
     methods: {
+        redirectToDelete(id) {
+            if(confirm("Do you really want to delete this contract?")){
+                axios.delete('http://localhost:8080/contracts/' + id);
+                window.location.reload();
+            }
+        },
         redirectToEdit(id) {
-            window.location = 'http://localhost:8080/contracts/' + id;
+            window.location = 'http://localhost:8080/contracts/' + id + '/editByManager';
         },
         searching: function () {
             this.result = [];

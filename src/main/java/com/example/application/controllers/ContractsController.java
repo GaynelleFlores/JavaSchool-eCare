@@ -49,6 +49,12 @@ public class ContractsController {
         return "editContractByClient";
     }
 
+    @GetMapping("contracts/{id}/editByManager")
+    public String editByManager(Model model, @PathVariable("id") int id) {
+        model.addAttribute("contract", contractService.getContract(id));
+        return "editContractByManager";
+    }
+
     @PostMapping("contracts/{id}")
     public String update(@ModelAttribute("contract") ContractDTO contract) {
         contractService.updateContract(contract);

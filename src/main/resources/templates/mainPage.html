@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Managers menu</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://localhost:8080/css/mainPage.css">
+    <link rel="stylesheet" href="http://localhost:8080/css/account.css">
+</head>
+<body>
+<div id="app">
+    <header class="bd-header py-3 d-flex align-items-stretch">
+        <div class="container-fluid d-flex align-items-center">
+            <h1 class="d-flex align-items-center fs-4 text-white mb-0">
+                <img th:src="@{http://localhost:8080/images/white_e.png}" width="50" height="50" class="me-3" alt="Bootstrap">
+                eCare
+            </h1>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row d-flex align-items-center justify-content-center">
+            <h2>Choose menu:</h2>
+        </div>
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="my-col d-flex align-items-center justify-content-center">
+                <button v-on:click="redirectToContracts()" class="big-button">Contracts</button>
+            </div>
+            <div class="my-col d-flex align-items-r justify-content-">
+                <button v-on:click="redirectToClients()" class="big-button">Clients</button>
+            </div>
+            <div class="w-100"></div>
+            <div class="my-col d-flex align-items-center justify-content-center">
+                <button v-on:click="redirectToPlans()" class="big-button">Plans</button>
+            </div>
+            <div class="my-col d-flex align-items-center justify-content-center">
+                <button v-on:click="redirectToOptions()" class="big-button">Options</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.3"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script type="text/javascript"  th:src="@{/scripts/mainPage.js}"></script>
+</body>
+</html>

@@ -9,13 +9,75 @@
 <body>
 <div id="app">
 <header class="bd-header py-3 d-flex align-items-stretch">
-    <div class="container-fluid d-flex align-items-center">
-        <h1 class="d-flex align-items-center fs-4 text-white mb-0">
-            <img th:src="@{http://localhost:8080/images/white_e.png}" width="50" height="50" class="me-3" alt="Bootstrap">
-            eCare
-        </h1>
+    <div class="col">
+        <div class="container-fluid d-flex align-items-center">
+            <h1 class="d-flex align-items-center fs-4 text-white mb-0">
+                <img th:src="@{http://localhost:8080/images/white_e.png}" width="50" height="50" class="me-3" alt="Bootstrap">
+                eCare
+            </h1>
+        </div>
+    </div>
+    <div class="my-cart">
+        <div class="row">
+            <p>
+                <a class="d-flex align-items-center justify-content-center my-btn" data-toggle="collapse" href="#myCart" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    <img th:src="@{http://localhost:8080/images/bag.png}" width="50" height="50"/>
+                </a>
+            </p>
+        </div>
+        <div class="row">
+            <div class="collapse my-cart" id="myCart">
+                <div class="card card-body my-card-body">
+                    <div v-for="contract in allContracts">
+                        <table v-show="contract.isBlocked === false && planForContract(contract.id) !== ''" class="table" >
+                            <h6 v-show="planForContract(contract.id) !== ''">Cart for contract {{contract.phoneNumber}}</h6>
+                            <thead class="thead-inverse">
+                            <tr>
+                                <th>Plan</th>
+                                <th>Price</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>{{planForContract(contract.id).title}}</td>
+                                <td>{{planForContract(contract.id).price}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table v-show="contract.isBlocked === false && optionsForContract(contract.id) !== ''" class="table">
+                            <thead class="thead-inverse">
+                            <tr>
+                                <th>Title</th>
+                                <th>Connection cost</th>
+                                <th>Price</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="option in optionsForContract(contract.id)">
+                                <td>{{option.title}}</td>
+                                <td>{{option.connectionCost}}</td>
+                                <td>{{option.price}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    <div  class="row">
+                        <div class="col">
+                            <h6 v-show="totalForContract(contract.id) !== 0">Total: {{totalForContract(contract.id)}}</h6>
+                        </div>
+                        <div class="col">
+                            <form method="GET" :action="'/contracts/'+contract.id+'/edit'">
+                                <button v-if="contract.isBlocked === false && totalForContract(contract.id) !== 0" type="submit" class="btn submit my-button">Edit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
     </div>
 </header>
+
+
 
 <div class="row" >
 
@@ -34,7 +96,7 @@
         <h1 class="contracts text-center"> Your contracts:</h1>
         <div class="accordion my-accordion"  v-for="contract in allContracts" :key="contract.id">
             <div class="card">
-                <a class="card-header" :href="'#'+contract.id" data-toggle="collapse"> <!-- th:data-target="'#content' + ${contract.getId()}"-->
+                <a class="card-header" :href="'#'+contract.id" data-toggle="collapse">
                     Phone number: <span>{{contract.phoneNumber}}</span>
                     <span v-if="contract.isBlocked" class="badge badge-light">blocked</span>
                 </a>
@@ -42,7 +104,6 @@
                     <h6>Plan:</h6>
                     <p class="font-weight-normal"><span>{{contract.plan.title}}</span></p>
                     <h6>Options:</h6>
-
                     <div class="row">
                         <div class="col d-flex align-items-center justify-content-center">
                             <form method="GET" :action="'/contracts/'+contract.id+'/edit'">
@@ -76,20 +137,3 @@
 <script type="text/javascript"  th:src="@{/scripts/account.js}"></script>
 </body>
 </html>
-
-<!--<div class="accordion my-accordion" th:each="contract : ${client.getContracts()}">-->
-<!--    <div class="card">-->
-<!--        <a th:class="${contract.getIsBlocked()} ? 'card-header block-contract' : 'card-header'" href="#" data-toggle="collapse" th:data-target="'#content' + ${contract.getId()}">-->
-<!--            Phone number: <span th:text="${contract.getPhoneNumber()}"></span>-->
-<!--        </a>-->
-<!--        <div th:id="'content' + ${contract.getId()}" class="collapse card-body">-->
-<!--            <h6>Plan:</h6>-->
-<!--            <p class="font-weight-normal"><span th:text="${contract.getPlan().getTitle()}"></span></p>-->
-<!--            <h6>Options:</h6>-->
-
-<!--            <form th:method="GET" th:action="@{/contracts/{id}/edit(id = ${contract.getId()})}">-->
-<!--                <button type="submit" class="btn submit my-button">Edit</button>-->
-<!--            </form>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->

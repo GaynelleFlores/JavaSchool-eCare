@@ -54,6 +54,7 @@
                     <th>ID</th>
                     <th>Phone number</th>
                     <th></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -62,6 +63,9 @@
                     <td>{{contract.phoneNumber}}</td>
                     <td>
                         <button class="btn submit my-button" v-on:click="redirectToEdit(contract.id)">Edit</button>
+                    </td>
+                    <td>
+                        <button class="btn submit my-button" v-on:click="redirectToDelete(contract.id)">Delete</button>
                     </td>
                 </tr>
                 </tbody>
