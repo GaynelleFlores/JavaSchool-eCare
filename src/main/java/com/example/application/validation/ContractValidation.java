@@ -18,12 +18,12 @@ public class ContractValidation {
 
     private boolean checkOptionsIsAllowed(ContractsEntity contract) {
         if (contract.getPlan().getAllowedOptions() == null && contract.getOptions().size() > 0) {
-            logger.error("Contract with id=" + contract.getId() + " contains not allowed option.");
+            logger.error("Contract  contains not allowed option.");
             return false;
         }
         for (OptionsEntity option : contract.getOptions()) {
             if (!contract.getPlan().getAllowedOptions().contains(option)) {
-                logger.error("Contract with id=" + contract.getId() + " contains not allowed option.");
+                logger.error("Contract contains not allowed option.");
                 return false;
             }
         }
