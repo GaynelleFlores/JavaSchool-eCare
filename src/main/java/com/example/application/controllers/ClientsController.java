@@ -1,8 +1,6 @@
 package com.example.application.controllers;
 
 import com.example.application.services.ClientsService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,13 +34,13 @@ public class ClientsController {
     @PostMapping("clients")
     public String create(@ModelAttribute("client") ClientDTO client) {
         clientsService.createClient(client);
-        return "success";
+        return "clients";
     }
 
     @DeleteMapping("clients/{id}")
     public String delete(@PathVariable("id") int id) {
         clientsService.deleteClient(id);
-        return "success";
+        return "clients";
     }
 
     @GetMapping("clients/{id}/edit")
@@ -54,6 +52,6 @@ public class ClientsController {
     @PostMapping("clients/{id}")
     public String update(@ModelAttribute("client") ClientDTO client) {
         clientsService.updateClient(client);
-        return "success";
+        return "clients";
     }
 }

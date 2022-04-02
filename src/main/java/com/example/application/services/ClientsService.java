@@ -6,6 +6,7 @@ import com.example.application.models.ClientsEntity;
 import com.example.application.validation.ClientValidation;
 import lombok.RequiredArgsConstructor;
 import org.dozer.DozerBeanMapper;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,15 @@ public class ClientsService {
     private final DozerBeanMapper mapper;
 
     private final ClientDAO clientDAO;
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
+    public ClientDTO getClientByLogin(String login) {
+        ClientsEntity client = clientDAO.getClientByLogin(login);
+        if (client == null) {
+            throw new UsernameNotFoundException("Could not find user");
+        }
+        return mapper.map(client, ClientDTO.class);
+    }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public List<ClientDTO> getClientsList() {
@@ -56,10 +66,12 @@ public class ClientsService {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void setRole(ClientDTO client, int roleId) {
+        clientDAO.addRole(mapper.map(clientDAO.show(client.getId()), ClientsEntity.class), roleId);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void updateClient(ClientDTO client) {
-        if (client.getEmail().isEmpty()) {
-            client.setEmail(null);
-        }
         if (!clientValidation.validateClient(mapper.map(client, ClientsEntity.class))) {
             throw new BusinessLogicException("Failed to update client. Some field contains invalid information.");
         }

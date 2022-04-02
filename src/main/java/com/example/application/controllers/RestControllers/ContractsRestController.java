@@ -24,6 +24,17 @@ public class ContractsRestController {
         return contractService.getContract(id).getOptions();
     }
 
+    @PostMapping("clientByPhoneNumber")
+    public ClientDTO getClientByPhoneNumber(@RequestParam String phone) {
+        ContractDTO contract = getContractByPhoneNumber(phone);
+        return contract.getClient();
+    }
+
+    @GetMapping("contractByPhoneNumber")
+    public ContractDTO getContractByPhoneNumber( @RequestParam String phone) {
+        return contractService.getContractByPhoneNumber(phone);
+    }
+
     @PostMapping("contracts/{id}/update")
     public ResponseEntity<String> update(@PathVariable("id") int id, @RequestParam Set<OptionDTO> options, @RequestParam PlanDTO plan) {
         contractService.updateContract(id, options, plan);

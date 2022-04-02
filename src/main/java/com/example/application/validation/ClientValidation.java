@@ -18,7 +18,7 @@ public class ClientValidation {
     }
 
     public boolean validateClient(ClientsEntity client) {
-        if (!checkPassport(client.getPassport())) {
+        if (!checkPassport("string")) {
             logger.error("Client has incorrect passport.");
             return false;
         }
