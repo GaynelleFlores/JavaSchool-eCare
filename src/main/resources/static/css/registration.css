@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin&family=Montserrat:ital,wght@0,300;1,300&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Cabin', sans-serif;
+    font-size: 1rem;
+    font-weight: 200;
+    line-height: 1.5;
+    color: #333;
+    text-align: left;
+    background: rgb(105,228,223);
+    background: linear-gradient(90deg, rgba(105,228,223,1) 0%, rgba(255,239,229,1) 100%);
+}
+
+.container {
+    max-width: 300px;
+}
+
+.my-width {
+    width: 250px;
+}
+
+.my-notification {
+    padding: 16px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    top: 80px;
+    max-width: 200px;
+    background: #38c4cb;
+}
+
+.all-notifications {
+    right: 0;
+    position: absolute;
+    z-index: 999999;
+}
+.v-transition-enter {
+    transform: translateX(120px);
+    opacity: 0;
+}
+.v-transition-enter-active {
+    transition: all .6s ease;
+}
+.v-transition-enter-to {
+    opacity: 1;
+}
+
+.v-transition-leave-active {
+    transition: all 0.5s ease;
+}
+
+.v-transition-leave-to {
+
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+.v-transition-move {
+    transition: transform .6s ease;
+}
+
+.my-button {
+    background-color: #38c4cb;
+    border-color:#38c4cb;
+    width: 75px;
+}
+.my-button:hover {
+    background-color: #00959b;
+    border-color: #007077;
+}
+.my-button:active {
+    background-color: #00959b;
+    border-color: #007077;
+}
+
+.my-button:focus {
+    background-color: #007077;
+    border-color: #007077;
+}
+
+a {
+    margin-top: 10px;
+    color: #007077;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+
+a:hover {
+    margin-top: 10px;
+    color: #003a42;
+    text-decoration: underline;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}

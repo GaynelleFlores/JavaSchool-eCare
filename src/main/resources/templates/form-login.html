@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://localhost:8080/css/registration.css">
+</head>
+
+<body>
+    <header class="bd-header py-3 d-flex align-items-stretch">
+        <div class="container-fluid d-flex align-items-center">
+            <h1 class="d-flex align-items-center fs-4 text-white mb-0">
+                <img th:src="@{http://localhost:8080/images/white_e.png}" width="50" height="50" class="me-3" alt="Bootstrap">
+                eCare
+            </h1>
+        </div>
+    </header>
+    <div class="container">
+
+        <div class="row d-flex align-items-center justify-content-center" th:if="${param.logout}">
+            <div class="alert alert-info my-width" role="alert">
+                You have been logged out
+            </div>
+        </div>
+        <form th:action="@{/doLogin}" method="post">
+            <div class="row d-flex align-items-center justify-content-center" th:if="${param.error}">
+                <div class="alert alert-danger my-width" role="alert">
+                    Invalid login or password
+                </div>
+            </div>
+            <div class="row d-flex align-items-center justify-content-center">
+                <h2>Sign in</h2>
+            </div>
+            <div class="row d-flex align-items-center justify-content-center">
+                <div class="form-group">
+                    <label for="login">Login:</label>
+                    <input required type="text" name="login" class="form-control  my-width" id="login">
+                </div>
+            </div>
+            <div class="row d-flex align-items-center justify-content-center">
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input required type="password" name="pass" class="form-control my-width" id="password">
+                </div>
+            </div>
+            <div class="row d-flex align-items-center justify-content-center">
+                <button type="submit"  class="btn btn-primary my-button">Sign in</button>
+            </div>
+            <div class="row d-flex align-items-center justify-content-center">
+                <a href="http://localhost:8080/registration">New to eCare? Create an account</a>
+            </div>
+        </form>
+
+    </div>
+</body>
+</html>

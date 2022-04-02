@@ -28,6 +28,12 @@ var app = new Vue({
             }
         },
         async created() {
+            const CSRF_TOKEN = document.cookie.match(new RegExp(`XSRF-TOKEN=([^;]+)`))[1];
+            const instance = axios.create({
+                headers: { "X-XSRF-TOKEN": CSRF_TOKEN }
+            });
+            export const AXIOS = instance;
+
             axios
                 .get('http://localhost:8080/allClients')
                 .then(response => (this.clients = response.data));
@@ -37,7 +43,6 @@ var app = new Vue({
             await axios
                 .get('http://localhost:8080/allOptions')
                 .then(response => (this.options = response.data));
-            //console.log(this.firstPlan);
         },
         methods: {
             async updateOptions() {
@@ -53,24 +58,21 @@ var app = new Vue({
                     for (var j = 0; j < this.chosenOptions.length; j++) {
                         if (this.options[i].id === this.chosenOptions[j].id) {
                             this.options.splice(i, 1);
-                            i = 0;
+                            i = -1;
+                            break;
                         }
                     }
                 }
             },
             removeNotAllowedOptions() {
-                var flag = false;
                 for (var i = 0; i < this.chosenOptions.length; i++) {
                     for (var j = 0; j < this.options.length; j++) {
                         if (this.options[j].id === this.chosenOptions[i].id) {
-                            flag = true;
+                            this.chosenOptions.splice(i, 1);
+                            i = -1;
+                            break;
                         }
                     }
-                    if (flag === false) {
-                        this.chosenOptions.splice(i, 1);
-                        i = 0;
-                    }
-                    flag = false;
                 }
             },
             post() {
@@ -83,7 +85,7 @@ var app = new Vue({
                 }
 
                 let param = new URLSearchParams();
-                param.append('phoneNumber', JSON.stringify(this.phoneNumber));
+                param.append('phoneNumber', this.phoneNumber);
                 param.append('plan', JSON.stringify(this.plan));
                 param.append('client', JSON.stringify(this.client));
                 if (this.chosenOptions.length === 0) {
@@ -99,20 +101,21 @@ var app = new Vue({
                     method: 'post',
                     url: 'http://localhost:8080/contracts/create',
                     data: param
-                }).then(response => (this.refreshData(response.data))).catch(err => {
-                    if (err.response) {
-                        console.log(err);
-                        console.log(err.response.status);
-                    } else if (err.request) {
-                        console.log(err);
-                    } else {
-                        console.log(err);
-                    }
-                });
-
+                }).then(response => (this.refreshData(response.data))).catch(err => this.addMessage(err));
+            },
+            addMessage(message) {
+                if (message.response) {
+                    this.messages.unshift({
+                        text: message.response.data,
+                        id: Date.now().toLocaleString()});
+                } else {
+                    this.messages.unshift({
+                        text: message,
+                        id: Date.now().toLocaleString()});
+                }
+                this.hideNotification();
             },
             refreshData(response) {
-                console.log("In refresh " + response);
                 this.messages.unshift({
                     text: response,
                     id: Date.now().toLocaleString()});
@@ -146,9 +149,6 @@ var app = new Vue({
                 await axios
                     .get('http://localhost:8080/requiredOptions/' + id)
                     .then(response => (this.requiredOptions = response.data));
-                console.log("req " + JSON.stringify(this.requiredOptions));
-                console.log("dest " + JSON.stringify(dest));
-                console.log("source " + JSON.stringify(dest));
                 if (this.requiredOptions.length > 0 && source.length > 0) {
                     for (var j = 0; j < this.requiredOptions.length; j++) {
                         for (var i = 0; i < source.length; i++) {

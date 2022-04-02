@@ -17,7 +17,6 @@ new Vue({
     async created() {
         var url = window.location.href.split('/');
         this.planId = url[4];
-        console.log(this.planId)
         var plan;
 
         axios
@@ -31,15 +30,12 @@ new Vue({
             .then(response => (this.allOptions = response.data));
 
         this.removeOptions(this.allOptions, this.allowedOptions);
-        // this.removeOptions(this.allReqOptions, this.myReqOptions);
-        console.log(JSON.stringify(plan));
         this.title = plan.title;
         this.price = plan.price;
 
     },
     methods: {
         async deletePlan() {
-            console.log("DELETE!");
             if (confirm("Do you really want to delete this option? ")) {
                 await axios.delete('http://localhost:8080/options/' + this.optionId);
                 window.location = 'http://localhost:8080/options'
@@ -81,17 +77,10 @@ new Vue({
 
         },
         removeOptions(source, remove) {
-            console.log(JSON.stringify('remove options'));
-            console.log(JSON.stringify(source));
-            console.log(JSON.stringify(remove));
             for (var i = 0; i < source.length; i++) {
-                console.log('i = ' + i);
                 for (var j = 0; j < remove.length; j++) {
-                    console.log('j = ' + j);
                     if (source[i].id === remove[j].id) {
-                        console.log('source[' + i + '].id ' + source[i].id + ' remove[' + j + '].id' + remove[j].id);
                         source.splice(i, 1);
-                        console.log('break');
                         i = -1;
                         break;
                     }

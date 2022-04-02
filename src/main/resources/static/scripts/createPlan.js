@@ -16,7 +16,6 @@ new Vue({
     async created() {
         var url = window.location.href.split('/');
         this.planId = url[4];
-        console.log(this.planId)
 
         await axios
             .get('http://localhost:8080/allOptions')
@@ -38,7 +37,6 @@ new Vue({
             this.finalPlan.id = this.planId;
             this.finalPlan.title = this.title;
             this.finalPlan.price = this.price;
-            console.log(JSON.stringify(this.finalPlan));
             param.append('plan', JSON.stringify(this.finalPlan));
             this.addSetToParam(param, this.allowedOptions, 'allowedOptions')
             axios({

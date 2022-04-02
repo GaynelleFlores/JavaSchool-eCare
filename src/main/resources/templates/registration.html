@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://localhost:8080/css/registration.css">
+</head>
+
+<body>
+<div id="app">
+    <header class="bd-header py-3 d-flex align-items-stretch">
+        <div class="container-fluid d-flex align-items-center">
+            <h1 class="d-flex align-items-center fs-4 text-white mb-0">
+                <img th:src="@{http://localhost:8080/images/white_e.png}" width="50" height="50" class="me-3" alt="Bootstrap">
+                eCare
+            </h1>
+        </div>
+    </header>
+    <div class="sticky-lg-top all-notifications">
+        <transition-group name="v-transition">
+            <div class="end-0 alert alert-success my-notification" role="alert" v-for="message in messages" :key="message.id">
+                {{ message.text }}
+            </div>
+        </transition-group>
+    </div>
+    <div class="container">
+        <div class="row d-flex align-items-center justify-content-center">
+        <h2>Create account</h2>
+        </div>
+        <form>
+            <div class="row d-flex align-items-center justify-content-center">
+            <div class="form-group">
+                <label for="phone">Enter your phone number:</label>
+                <input required type="text" v-model="phoneNumber" class="form-control  my-width" id="phone" placeholder="81234">
+            </div>
+            </div>
+            <div class="row d-flex align-items-center justify-content-center">
+                <div class="form-group">
+                    <label for="login">Login:</label>
+                    <input required type="text" v-model="login" class="form-control  my-width" id="login" placeholder="Login">
+                </div>
+            </div>
+            <div class="row d-flex align-items-center justify-content-center">
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input required type="password" v-model="password" class="form-control my-width" id="password" placeholder="Password">
+                </div>
+            </div>
+            <div class="row d-flex align-items-center justify-content-center">
+                <button class="btn btn-primary my-button" v-on:click="registration()">Create</button>
+            </div>
+            <div class="row d-flex align-items-center justify-content-center">
+                <a href="http://localhost:8080/login">Already have an account? Sign in</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.3"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script type="text/javascript"  th:src="@{/scripts/registration.js}"></script>
+</body>
+</html>

@@ -18,11 +18,9 @@ new Vue({
     watch: {
         myReqOptions: function () {
             this.isValid = this.checkIsValid();
-            console.log(this.isValid);
         },
         myIncOptions: function () {
             this.isValid = this.checkIsValid();
-            console.log(this.isValid);
         }
     },
     async created() {
@@ -83,13 +81,9 @@ new Vue({
         },
         removeOptions(source, remove) {
             for (var i = 0; i < source.length; i++) {
-                console.log('i = ' + i);
                 for (var j = 0; j < remove.length; j++) {
-                    console.log('j = ' + j);
                     if (source[i].id === remove[j].id || source[i].id === parseInt(this.optionId)) {
-                        console.log('source[' + i + '].id ' + source[i].id + ' remove[' + j + '].id' + remove[j].id);
                         source.splice(i, 1);
-                        console.log('break');
                         i = -1;
                         break;
                     }

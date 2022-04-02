@@ -16,19 +16,20 @@ new Vue({
         axios.get('http://localhost:8080/allContracts').then(response => (this.contracts = response.data));
         },
     methods: {
-        redirectToDelete(id) {
-            if(confirm("Do you really want to delete this contract?")){
-                axios.delete('http://localhost:8080/contracts/' + id);
-                window.location.reload();
+        async redirectToDelete(id) {
+            if (confirm("Do you really want to delete this contract?")) {
+                await axios.delete('http://localhost:8080/contracts/' + id).then(response => console.log(response.data));
             }
         },
         redirectToEdit(id) {
             window.location = 'http://localhost:8080/contracts/' + id + '/editByManager';
         },
+        redirectToCreate() {
+            window.location = 'http://localhost:8080/createContract';
+        },
         searching: function () {
             this.result = [];
             this.test = true;
-            console.log(this.result.length !== 0)
             if (this.search.length > 0) {
                 for (var i = 0; i < this.contracts.length; i++) {
                     if (this.contracts[i].phoneNumber.startsWith(this.search)) {

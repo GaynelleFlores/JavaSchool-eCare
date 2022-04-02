@@ -17,6 +17,12 @@
             </h1>
         </div>
     </div>
+    <ul class="nav nav-pills ">
+        <form name="logoutForm" th:hidden="true" method="post" th:action="@{/doLogout}">
+            <input type="submit" value="Logout" />
+        </form>
+        <li class="nav-item"><a href="#" class="nav-link"><a href="javascript: logoutForm.submit();">Sign Out</a></a></li>
+    </ul>
     <div class="my-cart">
         <div class="row">
             <p>
@@ -29,8 +35,8 @@
             <div class="collapse my-cart" id="myCart">
                 <div class="card card-body my-card-body">
                     <div v-for="contract in allContracts">
+                        <h6 v-show="(planForContract(contract.id) !== '' || optionsForContract(contract.id) !== '') && contract.isBlocked === false">Cart for contract {{contract.phoneNumber}}</h6>
                         <table v-show="contract.isBlocked === false && planForContract(contract.id) !== ''" class="table" >
-                            <h6 v-show="planForContract(contract.id) !== ''">Cart for contract {{contract.phoneNumber}}</h6>
                             <thead class="thead-inverse">
                             <tr>
                                 <th>Plan</th>
@@ -62,7 +68,7 @@
                         </table>
                     <div  class="row">
                         <div class="col">
-                            <h6 v-show="totalForContract(contract.id) !== 0">Total: {{totalForContract(contract.id)}}</h6>
+                            <h6 v-show="contract.isBlocked === false  && totalForContract(contract.id) !== 0">Total: {{totalForContract(contract.id)}}</h6>
                         </div>
                         <div class="col">
                             <form method="GET" :action="'/contracts/'+contract.id+'/edit'">
@@ -97,13 +103,17 @@
         <div class="accordion my-accordion"  v-for="contract in allContracts" :key="contract.id">
             <div class="card">
                 <a class="card-header" :href="'#'+contract.id" data-toggle="collapse">
-                    Phone number: <span>{{contract.phoneNumber}}</span>
+                    {{contract.id}}. Phone number: <span>{{contract.phoneNumber}}</span>
                     <span v-if="contract.isBlocked" class="badge badge-light">blocked</span>
                 </a>
                 <div :id=contract.id class="collapse card-body">
                     <h6>Plan:</h6>
                     <p class="font-weight-normal"><span>{{contract.plan.title}}</span></p>
                     <h6>Options:</h6>
+                    <div v-for="option in contractOptions(contract.id)">
+                        <span >{{option.title}}</span>
+                        <br>
+                    </div>
                     <div class="row">
                         <div class="col d-flex align-items-center justify-content-center">
                             <form method="GET" :action="'/contracts/'+contract.id+'/edit'">
