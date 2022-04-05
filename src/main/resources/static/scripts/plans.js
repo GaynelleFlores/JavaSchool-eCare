@@ -23,10 +23,9 @@ new Vue({
         redirectToCreate() {
             window.location = 'http://localhost:8080/createPlan';
         },
-        deleteOption(id) {
-            if(confirm("Do you really want to delete this plan? ")){
-                axios.delete('http://localhost:8080/plans/' + id);
-                window.location.reload();
+        async deleteOption(id) {
+            if (confirm("Do you really want to delete this plan? ")) {
+                await axios.delete('http://localhost:8080/plans/' + id);
             }
         }
     }

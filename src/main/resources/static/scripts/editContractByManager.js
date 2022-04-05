@@ -181,9 +181,6 @@ var app = new Vue({
                 await axios
                     .get('http://localhost:8080/requiredOptions/' + id)
                     .then(response => (this.requiredOptions = response.data));
-                console.log("req " + JSON.stringify(this.requiredOptions));
-                console.log("dest " + JSON.stringify(dest));
-                console.log("source " + JSON.stringify(dest));
                 if (this.requiredOptions.length > 0 && source.length > 0) {
                     for (var j = 0; j < this.requiredOptions.length; j++) {
                         for (var i = 0; i < source.length; i++) {

@@ -7,6 +7,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -21,6 +22,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> method(BusinessLogicException e) {
         logger.error(e.getMessage());
         return new ResponseEntity<String>(e.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value
+            = {AccessDeniedException.class})
+    public ResponseEntity<String> method(AccessDeniedException e) {
+        logger.warn(e.getMessage());
+        return new ResponseEntity<String>(e.getMessage(), new HttpHeaders(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(value

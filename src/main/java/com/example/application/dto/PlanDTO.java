@@ -1,7 +1,6 @@
 package com.example.application.dto;
 
 import com.example.application.models.ContractsEntity;
-import com.example.application.models.OptionsEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import java.math.BigInteger;
@@ -18,7 +17,7 @@ public class PlanDTO {
     private BigInteger price;
 
     @JsonIgnore
-    Set<OptionsEntity> allowedOptions;
+    Set<OptionDTO> allowedOptions;
 
     @JsonIgnore
     private List<ContractsEntity> contracts;

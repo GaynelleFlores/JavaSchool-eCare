@@ -83,7 +83,7 @@
                                 <div v-for="(option, index) in chosenOptions"
                                      :key="option.id">
                                     <input type="checkbox" v-on:change="doCheck(index, 'remove')"  checked>
-                                    <span>{{ option.id }} {{ option.title }}</span>
+                                    <span>{{ option.id }}. {{ option.title }}</span>
                                 </div>
                             </ul>
                         </div>
@@ -97,7 +97,7 @@
                                 <div v-for="(option, index) in options"
                                      :key="option.id">
                                     <input class="custom-control-input" type="checkbox" v-on:change="doCheck(index, 'add')"/>
-                                    <span>{{ option.id }} {{ option.title }}</span>
+                                    <span>{{ option.id }}. {{ option.title }}</span>
                                 </div>
                             </ul>
                         </div>

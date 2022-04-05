@@ -6,13 +6,21 @@ new Vue({
         disabled: true,
         allContracts: [],
         cartPlans: [],
-        cartOptions: []
+        cartOptions: [],
+        allOptions: []
     },
     async created() {
         var url = window.location.href.split('/');
         this.clientId = url[4];
-        await axios.get('http://localhost:8080/clients/' + this.clientId + '/getContracts').then(response => (this.allContracts = response.data));
+        await axios.get('http://localhost:8080/clients/' + this.clientId + '/getContracts').then(response => (this.allContracts = response.data)).catch();
         this.createCart();
+        for (var i = 0; i < this.allContracts.length; i++) {
+            var temp = [];
+            await axios
+                .get('http://localhost:8080/optionsByContract/' + this.allContracts[i].id)
+                .then(response => (temp = response.data));
+            this.allOptions.push({id: this.allContracts[i].id, options: temp});
+        }
     },
     methods: {
         totalForContract: function (id) {
@@ -31,7 +39,11 @@ new Vue({
         },
         optionsForContract: function (id) {
             if (localStorage.getItem('chosenOptions' + id)) {
-                return JSON.parse(localStorage.getItem('chosenOptions' + id));
+                var temp = JSON.parse(localStorage.getItem('chosenOptions' + id));
+                if (JSON.stringify(temp) === "[]") {
+                    return '';
+                }
+                return temp;
             }
             return '';
         },
@@ -44,8 +56,6 @@ new Vue({
                     this.cartOptions.push(JSON.parse(localStorage.getItem('chosenOptions' + this.allContracts[i].id)));
                 }
             }
-            console.log(JSON.stringify(this.cartOptions));
-            console.log(JSON.stringify(this.cartPlans));
         },
         deleteContract: function (contractId) {
             if(confirm("Do you really want to delete this contract? ")){
@@ -54,7 +64,6 @@ new Vue({
             }
         },
         block: function (contractId) {
-            console.log('in Block ' + contractId);
             let param = new URLSearchParams();
             param.append('isBlocked', 'true');
             param.append('isBlockedByManager', 'false');
@@ -63,10 +72,16 @@ new Vue({
                 url: 'http://localhost:8080/contracts/' + contractId + '/block',
                 data: param
             });
-            location.reload();
+        },
+        contractOptions: function (id) {
+            for (var i = 0; i < this.allOptions.length; i++) {
+                if (this.allOptions[i].id === id) {
+                    return this.allOptions[i].options;
+                }
+            }
+            return [];
         },
         unblock: function (contractId) {
-            console.log('in UnBlock ' + contractId);
             let param = new URLSearchParams();
             param.append('isBlocked', 'false');
             param.append('isBlockedByManager', 'false');
@@ -75,10 +90,8 @@ new Vue({
                 url: 'http://localhost:8080/contracts/' + contractId + '/block',
                 data: param
             });
-            location.reload();
         },
         isDisabled: function(isBlock) {
-            console.log("In script!")
             return isBlock;
         }
     }

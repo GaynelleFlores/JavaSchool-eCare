@@ -16,6 +16,15 @@ public class ContractDAO implements GenericDAO<ContractsEntity> {
         return entityManager.createQuery("SELECT c FROM ContractsEntity c", ContractsEntity.class).getResultList();
     }
 
+    public ContractsEntity getContractByPhoneNumber(String phone) {
+        String query = "SELECT c FROM ContractsEntity c WHERE phoneNumber = \'" + phone + "\'";
+        List contracts = entityManager.createQuery(query).getResultList();
+        if (contracts.size() != 1) {
+            return null;
+        }
+        return (ContractsEntity) contracts.get(0);
+    }
+
     public ContractsEntity show(int id) {
         return entityManager.find(ContractsEntity.class, id);
     }
@@ -31,4 +40,5 @@ public class ContractDAO implements GenericDAO<ContractsEntity> {
     public void delete(ContractsEntity contract) {
         entityManager.remove(entityManager.merge(contract));
     }
+
 }

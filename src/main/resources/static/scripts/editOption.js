@@ -19,11 +19,9 @@ new Vue({
     watch: {
         myReqOptions: function () {
             this.isValid = this.checkIsValid();
-            console.log(this.isValid);
         },
         myIncOptions: function () {
             this.isValid = this.checkIsValid();
-            console.log(this.isValid);
         }
     },
     async created() {
@@ -51,11 +49,9 @@ new Vue({
     },
     methods: {
         async deleteOption() {
-            console.log("DELETE!");
             if (confirm("Do you really want to delete this option? ")) {
                 await axios.delete('http://localhost:8080/options/' + this.optionId);
                 window.location = 'http://localhost:8080/options'
-                //location.reload();
             }
         },
         addSetToParam(param, set, key) {
@@ -108,17 +104,13 @@ new Vue({
         removeOptions(source, remove) {
 
             for (var i = 0; i < source.length; i++) {
-                console.log('i = ' + i);
                 if (source[i].id === parseInt(this.optionId)) {
                     source.splice(i, 1);
                     i = 0;
                 }
                 for (var j = 0; j < remove.length; j++) {
-                    console.log('j = ' + j);
                     if (source[i].id === remove[j].id) {
-                        console.log('source[' + i + '].id ' + source[i].id + ' remove[' + j + '].id' + remove[j].id);
                         source.splice(i, 1);
-                        console.log('break');
                         i = -1;
                         break;
                     }

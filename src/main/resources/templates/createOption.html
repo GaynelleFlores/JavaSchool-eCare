@@ -45,7 +45,7 @@
                             <div v-for="(option, index) in myIncOptions"
                                  :key="option.id">
                                 <input type="checkbox" v-on:change="doCheck(index, 'remove inc')" checked>
-                                <span>{{ option.id }} {{ option.title }}</span>
+                                <span>{{ option.id }}. {{ option.title }}</span>
                             </div>
                         </ul>
                     </div>
@@ -59,7 +59,7 @@
                             <div v-for="(option, index) in allIncOptions"
                                  :key="option.id">
                                 <input type="checkbox" v-on:change="doCheck(index, 'add inc')">
-                                <span>{{ option.id }} {{ option.title }}</span>
+                                <span>{{ option.id }}. {{ option.title }}</span>
                             </div>
                         </ul>
                     </div>

@@ -5,6 +5,7 @@ var app = new Vue({
                 show: true,
                 valueInput: '',
                 contractId: '',
+                flag: 0,
                 contract: '',
                 firstPlan: '',
                 plan: 'empty',
@@ -25,7 +26,6 @@ var app = new Vue({
         },
         watch: {
             firstOptions: function () {
-                console.log("watch");
               this.cartIsActive();
             },
             optionsPrice: function () {
@@ -49,17 +49,20 @@ var app = new Vue({
                     }
                 }
                 await this.updateOptions();
+                this.addOptionsToLocalStorage();
             },
             chosenOptions: function () {
-
-
-                localStorage.setItem("chosenOptions" + this.contractId, JSON.stringify(this.chosenOptions));
+                for (var i = 0; i < this.chosenOptions.length; i++) {
+                    if (!this.isOldOption(this.chosenOptions[i].id)) {
+                        this.addOptionsToLocalStorage();
+                        break;
+                    }
+                }
             }
         },
         mounted() {
             if (localStorage.getItem('chosenOptions' + this.contractId)) {
                 this.chosenOptions = JSON.parse(localStorage.getItem('chosenOptions'  + this.contractId));
-                console.log(this.chosenOptions);
             }
         },
         async created() {
@@ -91,8 +94,10 @@ var app = new Vue({
             else {
                 await axios
                     .get('http://localhost:8080/optionsByContract/' + this.contractId)
+                    .then(response => (this.firstOptions = response.data));
+                await axios
+                    .get('http://localhost:8080/optionsByContract/' + this.contractId)
                     .then(response => (this.chosenOptions = response.data));
-                Object.assign(this.firstOptions, this.chosenOptions);
             }
             if (localStorage.getItem('optionsPrice' + this.contractId)) {
                 this.optionsPrice = JSON.parse(localStorage.getItem('optionsPrice'  + this.contractId));
@@ -101,12 +106,31 @@ var app = new Vue({
                 this.planPrice = JSON.parse(localStorage.getItem('planPrice'  + this.contractId));
             }
             await this.updateOptions();
-            // await axios
-            //     .get('http://localhost:8080/allOptions')
-            //     .then(response => (this.options = response.data));
-            //console.log(this.firstPlan);
+            console.log("chosen : " + JSON.stringify(this.chosenOptions));
         },
         methods: {
+            addOptionsToLocalStorage() {
+                var temp = [];
+                for (var i = 0; i < this.chosenOptions.length; i++) {
+                    if (!this.isOldOption(this.chosenOptions[i].id)) {
+                        temp.push(this.chosenOptions[i]);
+                    }
+                }
+                this.optionsPrice = 0;
+                for (var i = 0; i < temp.length; i++) {
+                    this.optionsPrice += temp[i].connectionCost;
+                }
+                if (JSON.stringify(temp) === "[]") {
+                    if (this.flag !== 0) {
+                        localStorage.setItem("chosenOptions" + this.contractId, JSON.stringify(temp));
+                    } else {
+                        this.flag = 1;
+                    }
+                } else {
+                    localStorage.setItem("chosenOptions" + this.contractId, JSON.stringify(temp));
+                }
+
+            },
             async updateOptions() {
                 await axios
                     .get('http://localhost:8080/getOptionsByPlan/' + this.plan.id)
@@ -115,42 +139,23 @@ var app = new Vue({
                     this.chosenOptions = [];
                     return;
                 }
-                this.removeNotAllowedOptions();
                 for (var i = 0; i < this.options.length; i++) {
                     for (var j = 0; j < this.chosenOptions.length; j++) {
                         if (this.options[i].id === this.chosenOptions[j].id) {
                             this.options.splice(i, 1);
-                            i = 0;
+                            i = -1;
+                            break;
                         }
                      }
                 }
             },
-            removeNotAllowedOptions() {
-                var flag = false;
-                for (var i = 0; i < this.chosenOptions.length; i++) {
-                    for (var j = 0; j < this.options.length; j++) {
-                        if (this.options[j].id === this.chosenOptions[i].id) {
-                            flag = true;
-                        }
-                    }
-                    if (flag === false) {
-                        this.chosenOptions.splice(i, 1);
-                        i = 0;
-                    }
-                    flag = false;
-                }
-            },
             removeOptionPrice(option) {
                 if (!this.isOldOption(option.id)) {
-                    console.log('old opt price ' + this.optionsPrice);
-                    console.log('minus ' + option.connectionCost);
                     this.optionsPrice -= option.connectionCost;
                 }
             },
             addOptionPrice(option) {
                 if (!this.isOldOption(option.id)) {
-                    console.log('old opt price ' + this.optionsPrice);
-                    console.log('addOptionPrice plus ' + option.connectionCost);
                     this.optionsPrice += option.connectionCost;
                 }
             },
@@ -197,10 +202,13 @@ var app = new Vue({
                         console.log(err);
                     }
                 });
-
+                localStorage.removeItem('chosenOptions' + this.contractId);
+                localStorage.removeItem('optionsPrice' + this.contractId);
+                localStorage.removeItem('plan' + this.contractId);
+                localStorage.removeItem('planPrice' + this.contractId);
+                localStorage.removeItem('total' + this.contractId);
             },
             refreshData(response) {
-                console.log("In refresh " + response);
                 this.messages.unshift({
                         text: response,
                         id: Date.now().toLocaleString()});
@@ -252,9 +260,6 @@ var app = new Vue({
                 await axios
                     .get('http://localhost:8080/requiredOptions/' + id)
                     .then(response => (this.requiredOptions = response.data));
-                console.log("req " + JSON.stringify(this.requiredOptions));
-                console.log("dest " + JSON.stringify(dest));
-                console.log("source " + JSON.stringify(dest));
                 if (this.requiredOptions.length > 0 && source.length > 0) {
                     for (var j = 0; j < this.requiredOptions.length; j++) {
                         for (var i = 0; i < source.length; i++) {

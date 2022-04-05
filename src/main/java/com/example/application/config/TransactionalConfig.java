@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class TransactionalConfig {
     @Bean(name = "transactionManager")
-    public PlatformTransactionManager transactionManager() {
+    public PlatformTransactionManager getTransactionManager() {
         return  new JpaTransactionManager();
     }
 }

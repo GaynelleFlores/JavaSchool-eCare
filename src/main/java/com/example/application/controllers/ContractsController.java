@@ -1,8 +1,11 @@
 package com.example.application.controllers;
 
+import com.example.application.UserDetailsImpl;
 import com.example.application.dto.ContractDTO;
 import com.example.application.services.ContractService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +48,13 @@ public class ContractsController {
 
     @GetMapping("contracts/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("contract", contractService.getContract(id));
+
+        UserDetailsImpl currentUser = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ContractDTO contract = contractService.getContract(id);
+        if (currentUser.getClient().getId() != contract.getClient().getId()) {
+            throw new AccessDeniedException("Access denied");
+        }
+        model.addAttribute("contract", contract);
         return "editContractByClient";
     }
 

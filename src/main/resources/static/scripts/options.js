@@ -23,10 +23,9 @@ new Vue({
         redirectToCreate() {
             window.location = 'http://localhost:8080/createOption';
         },
-        deleteOption(id) {
-            if(confirm("Do you really want to delete this option? ")){
-                axios.delete('http://localhost:8080/options/' + id);
-                window.location.reload();
+        async deleteOption(id) {
+            if (confirm("Do you really want to delete this option? ")) {
+                await axios.delete('http://localhost:8080/options/' + id);
             }
         }
     }

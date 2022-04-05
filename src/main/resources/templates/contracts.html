@@ -19,6 +19,9 @@
     </header>
     <div class="container">
         <div class="row">
+            <button class="btn submit create-button" v-on:click="redirectToCreate()">Create new contract</button>
+        </div>
+        <div class="row">
             <div class="form-group">
                 <input v-model="search" class="form-control" placeholder="Enter phone number">
             </div>
